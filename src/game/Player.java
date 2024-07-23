@@ -77,4 +77,9 @@ public class Player {
 	public void gainSilverCoin() {
 		this.silverCoinCount++;
 	}
+
+	public Spice selectCubeFromCaravan() {
+		caravan.getCubes();
+		return Spice.YELLOW_TUMERIC; //TODO - fill in
+	}
 }

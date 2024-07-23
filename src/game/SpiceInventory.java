@@ -57,8 +57,12 @@ public class SpiceInventory {
     public int getQuantity(Spice spice) {
         return cubes.getOrDefault(spice, 0);
     }
+    
+    public Map<Spice, Integer> getCubes() {
+		return cubes;
+	}
 
-    // Print out the inventory
+	// Print out the inventory
     public void printInventory() {
         System.out.println("Spice Inventory:");
         for (Map.Entry<Spice, Integer> entry : cubes.entrySet()) {
