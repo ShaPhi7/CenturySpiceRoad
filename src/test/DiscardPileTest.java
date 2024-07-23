@@ -15,7 +15,7 @@ import game.DeckRow;
 import game.Game;
 import game.Player;
 
-public class ActionTest {
+public class DiscardPileTest {
 	 
 	 @Before
 	 public void setUp() {
