@@ -1,6 +1,7 @@
 package game;
 
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * aka Caravan
@@ -8,6 +9,9 @@ import java.util.List;
 public class Player {
 
 	private final boolean startingPlayer;
+	
+	private TreeSet<Card> hand;
+	private TreeSet<Card> discard;
 	
 	public Player(boolean startingPlayer) {
 		this.startingPlayer = startingPlayer;
@@ -30,5 +34,21 @@ public class Player {
 	public static void nextPlayer(List<Player> players) {
 		Player player = players.removeFirst();
 		players.addLast(player);
+	}
+	
+	public TreeSet<Card> getHand() {
+		return hand;
+	}
+
+	public void setHand(TreeSet<Card> hand) {
+		this.hand = hand;
+	}
+
+	public TreeSet<Card> getDiscard() {
+		return discard;
+	}
+
+	public void setDiscard(TreeSet<Card> discard) {
+		this.discard = discard;
 	}
 }
