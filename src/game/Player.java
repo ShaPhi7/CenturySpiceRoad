@@ -29,11 +29,13 @@ public class Player {
 		{
 			players.add(new Player(false));
 		}
+		Game.currentPlayer = players.getFirst();
 	}
 
 	public static void nextPlayer(List<Player> players) {
 		Player player = players.removeFirst();
 		players.addLast(player);
+		Game.currentPlayer = players.getFirst();
 	}
 	
 	public DeckRow getHand() {

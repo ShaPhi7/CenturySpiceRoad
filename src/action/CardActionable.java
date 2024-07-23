@@ -17,7 +17,7 @@ public interface CardActionable extends Actionable {
 	{
 		doAction(player, null);
 	}
-	public default boolean valid(Player player)
+	public default boolean validateAction(Player player)
 	{
 		return valid(player, null);
 	}

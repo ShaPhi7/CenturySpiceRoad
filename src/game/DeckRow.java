@@ -16,6 +16,26 @@ public abstract class DeckRow implements Actionable {
 		this.numberOfVisibleCards = numberOfVisibleCards;
 	}
 	
+	public boolean execute()
+	{
+		if (!this.validateAction(Game.currentPlayer))
+		{
+			return false;
+		}
+		this.doAction(Game.currentPlayer);
+		return true;
+	}
+	
+	public boolean basicValidation(Player player) {
+		if (!player.equals(Game.currentPlayer))
+		{
+			System.out.println("Player is not the current player");
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public List<Card> getVisibleCards(){
 		
 		List<Card> ret = new ArrayList<>();

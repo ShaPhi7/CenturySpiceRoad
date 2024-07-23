@@ -20,7 +20,7 @@ public class Hand extends DeckRow {
 	}
 
 	@Override
-	public boolean valid(Player player) {
+	public boolean validateAction(Player player) {
 		// TODO Auto-generated method stub
 		return false;
 	}

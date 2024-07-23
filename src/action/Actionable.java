@@ -6,5 +6,5 @@ public interface Actionable {
 
 	public String getActionName();
 	public void doAction(Player player);
-	public boolean valid(Player player);
+	public boolean validateAction(Player player);
 }

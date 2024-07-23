@@ -9,23 +9,18 @@ public class Game {
 	
 	public static List<Player> players = new LinkedList<Player>();
 	
+	public static Player currentPlayer;
+	
 	public static void main(String[] args) {
 
 		Player.setupPlayers(players);
-				
+		
 		while(!shouldEndGame())
 		{
-			Player currentPlayer = players.getFirst();
-			doAction(currentPlayer);
+			currentPlayer = players.getFirst();
+			currentPlayer.getDiscard().execute(); //TODO - add 3 others and make generic
 			Player.nextPlayer(players);
 		}
-	}
-
-	private static void doAction(Player currentPlayer) {
-		
-		DeckRow deckRow = currentPlayer.getDiscard(); //3 other types of actions
-		deckRow.valid(currentPlayer);
-		deckRow.doAction(currentPlayer);
 	}
 
 	private static boolean shouldEndGame() {
