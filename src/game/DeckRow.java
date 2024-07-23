@@ -48,6 +48,19 @@ public abstract class DeckRow implements Actionable {
 		return ret;
 	}
 
+	public void moveTo(Card card, DeckRow otherDeck) {
+		remove(card);
+		otherDeck.add(card);
+	}
+	
+	private void add(Card card) {
+		deck.add(card);
+	}
+	
+	private void remove(Card card) {
+		deck.add(card);
+	}
+	
 	public List<Card> getDeck() {
 		return deck;
 	}

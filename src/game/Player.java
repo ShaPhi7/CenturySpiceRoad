@@ -12,6 +12,9 @@ public class Player {
 	
 	private DeckRow hand = new Hand(Optional.empty());
 	private DeckRow discard = new DiscardPile(Optional.empty());
+	private SpiceInventory caravan = new SpiceInventory();
+	private int goldCoinCount = 0;
+	private int silverCoinCount = 0;
 	
 	public Player(boolean startingPlayer) {
 		this.startingPlayer = startingPlayer;
@@ -38,6 +41,11 @@ public class Player {
 		Game.currentPlayer = players.getFirst();
 	}
 	
+	public void payCubes(SpiceInventory cost)
+	{
+		caravan.removeSpices(cost);
+	}
+
 	public DeckRow getHand() {
 		return hand;
 	}
@@ -52,5 +60,21 @@ public class Player {
 
 	public void setDiscard(DeckRow discard) {
 		this.discard = discard;
+	}
+
+	public int getGoldCoinCount() {
+		return goldCoinCount;
+	}
+
+	public void gainGoldCoin() {
+		this.goldCoinCount++;
+	}
+
+	public int getSilverCoinCount() {
+		return silverCoinCount;
+	}
+	
+	public void gainSilverCoin() {
+		this.silverCoinCount++;
 	}
 }

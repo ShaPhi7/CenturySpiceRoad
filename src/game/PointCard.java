@@ -1,16 +1,14 @@
 package game;
 
-import java.util.HashMap;
-
 public class PointCard extends Card {
 
-	private HashMap<Spice, Integer> cost;
+	private SpiceInventory cost;
 	private int value;
 	
-	public HashMap<Spice, Integer> getCost() {
+	public SpiceInventory getCost() {
 		return cost;
 	}
-	public void setCost(HashMap<Spice, Integer> cost) {
+	public void setCost(SpiceInventory cost) {
 		this.cost = cost;
 	}
 	public int getValue() {

@@ -43,4 +43,24 @@ import game.Player;
 	        assertFalse(Game.players.getFirst().isStartingPlayer(), "Last player should not be the starting player after rotation.");
 	        assertTrue(Game.players.getLast().isStartingPlayer(), "First player should have moved to the last position.");
 	    }
+	    
+	    @Test
+	    public void testGainingCoins() {
+	    	Player currentPlayer = Game.currentPlayer;
+			assertEquals(currentPlayer.getGoldCoinCount(), 0);
+	    	assertEquals(currentPlayer.getSilverCoinCount(), 0);
+	    	
+	    	currentPlayer.gainGoldCoin();
+			assertEquals(currentPlayer.getGoldCoinCount(), 1);
+	    	assertEquals(currentPlayer.getSilverCoinCount(), 0);
+	    	
+	    	currentPlayer.gainSilverCoin();
+			assertEquals(currentPlayer.getGoldCoinCount(), 1);
+	    	assertEquals(currentPlayer.getSilverCoinCount(), 1);
+	    	
+	    	currentPlayer.gainGoldCoin();
+	    	currentPlayer.gainSilverCoin();
+			assertEquals(currentPlayer.getGoldCoinCount(), 2);
+	    	assertEquals(currentPlayer.getSilverCoinCount(), 2);
+	    }
 }
