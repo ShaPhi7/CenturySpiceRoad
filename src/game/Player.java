@@ -10,8 +10,8 @@ public class Player {
 
 	private final boolean startingPlayer;
 	
-	private TreeSet<Card> hand;
-	private TreeSet<Card> discard;
+	private TreeSet<Card> hand = new TreeSet<>();
+	private TreeSet<Card> discard = new TreeSet<>();
 	
 	public Player(boolean startingPlayer) {
 		this.startingPlayer = startingPlayer;
