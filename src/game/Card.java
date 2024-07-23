@@ -1,5 +1,5 @@
 package game;
 
-public class Card {
-	//will be two types of cards
+public abstract class Card {
+	//TODO do we need this class?
 }
