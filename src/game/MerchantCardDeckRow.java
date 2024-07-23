@@ -2,9 +2,9 @@ package game;
 
 import java.util.Optional;
 
-public class SpiceCardDeckRow extends DeckRow {
+public class MerchantCardDeckRow extends DeckRow {
 
-	public SpiceCardDeckRow(Optional<Integer> numberOfVisibleCards) {
+	public MerchantCardDeckRow(Optional<Integer> numberOfVisibleCards) {
 		super(Optional.of(Integer.valueOf(6)));
 	}
 
@@ -16,7 +16,7 @@ public class SpiceCardDeckRow extends DeckRow {
 	@Override
 	public void doAction(Player player) {
 		//Choose card
-		SpiceCard card = new SpiceCard(); //TODO
+		MerchantCard card = new SpiceCard(); //TODO
 		
 		//pay cubes
 		placeCubesOnLowerCards(player, card);
@@ -24,13 +24,13 @@ public class SpiceCardDeckRow extends DeckRow {
 		moveCardTo(player.getHand(), card);
 	}
 
-	private void placeCubesOnLowerCards(Player player, SpiceCard card) {
+	private void placeCubesOnLowerCards(Player player, MerchantCard card) {
 		int indexOf = deck.indexOf(card);
 		for (int i=0;i<indexOf;i++)
 		{
 			Spice spice = player.selectCubeFromCaravan();
 			
-			SpiceCard lowerCard = (SpiceCard) deck.get(i);
+			MerchantCard lowerCard = (MerchantCard) deck.get(i);
 			lowerCard.placeCubeOnCard(spice);
 		}
 	}
