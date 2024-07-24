@@ -11,15 +11,15 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
-import game.Card;
+import board.Hand;
+import board.PointCardDeckRow;
+import card.Card;
+import card.PointCard;
+import card.TradeCard;
 import game.Game;
-import game.Hand;
 import game.Player;
-import game.PointCard;
-import game.PointCardDeckRow;
 import game.Spice;
 import game.SpiceInventory;
-import game.TradeCard;
 
 public class PointCardDeckRowTest {
 

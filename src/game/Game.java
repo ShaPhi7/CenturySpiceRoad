@@ -3,6 +3,9 @@ package game;
 import java.util.LinkedList;
 import java.util.List;
 
+import board.MerchantCardDeckRow;
+import board.PointCardDeckRow;
+
 public class Game {
 
 	public static int NUMBER_OF_PLAYERS = 4;

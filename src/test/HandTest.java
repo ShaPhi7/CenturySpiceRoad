@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
+import card.TradeCard;
 import game.Game;
 import game.Player;
-import game.TradeCard;
 
 public class HandTest {
 

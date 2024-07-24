@@ -1,6 +1,6 @@
-package game;
+package card;
 
-public class TradeCard extends MerchantCard {
+public class SpiceCard extends MerchantCard {
 
 	@Override
 	public void play() {

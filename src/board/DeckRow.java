@@ -1,10 +1,13 @@
-package game;
+package board;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import action.Actionable;
+import card.Card;
+import game.Game;
+import game.Player;
 
 public abstract class DeckRow implements Actionable {
 

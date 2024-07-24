@@ -9,15 +9,15 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
+import board.MerchantCardDeckRow;
+import card.MerchantCard;
+import card.PointCard;
+import card.SpiceCard;
+import card.TradeCard;
+import card.UpgradeCard;
 import game.Game;
-import game.MerchantCard;
-import game.MerchantCardDeckRow;
 import game.Player;
-import game.PointCard;
 import game.Spice;
-import game.SpiceCard;
-import game.TradeCard;
-import game.UpgradeCard;
 
 public class MerchantCardDeckRowTest {
 

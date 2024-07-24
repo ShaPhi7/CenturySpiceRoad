@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import board.DiscardPile;
+import board.Hand;
+import card.Card;
+import card.MerchantCard;
+import card.PointCard;
+
 /**
  * aka Caravan
  */

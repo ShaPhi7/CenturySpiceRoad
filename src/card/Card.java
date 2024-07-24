@@ -1,4 +1,4 @@
-package game;
+package card;
 
 public abstract class Card {
 	//base abstract class

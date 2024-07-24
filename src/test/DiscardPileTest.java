@@ -12,12 +12,12 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import game.Card;
-import game.DeckRow;
-import game.DiscardPile;
+import board.DeckRow;
+import board.DiscardPile;
+import card.Card;
+import card.TradeCard;
 import game.Game;
 import game.Player;
-import game.TradeCard;
 
 public class DiscardPileTest {
 	 

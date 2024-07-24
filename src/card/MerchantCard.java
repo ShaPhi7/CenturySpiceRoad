@@ -1,6 +1,10 @@
-package game;
+package card;
 
 import java.util.List;
+
+import game.Game;
+import game.Spice;
+import game.SpiceInventory;
 
 public abstract class MerchantCard extends Card {
 
@@ -23,7 +27,7 @@ public abstract class MerchantCard extends Card {
 	
 	public int getCubeCostOf()
 	{
-		List<Card> deck = Game.merchantCardDeckRow.deck;
+		List<Card> deck = Game.merchantCardDeckRow.getDeck();
 		int indexOf = deck.indexOf(this);
 		
 		return Math.max(indexOf, 0);

@@ -1,7 +1,13 @@
-package game;
+package board;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import card.Card;
+import card.MerchantCard;
+import game.Game;
+import game.Player;
+import game.Spice;
 
 public class MerchantCardDeckRow extends DeckRow {
 

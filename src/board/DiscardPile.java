@@ -1,7 +1,10 @@
-package game;
+package board;
 
 import java.util.List;
 import java.util.Optional;
+
+import card.Card;
+import game.Player;
 
 public class DiscardPile extends DeckRow {
 	

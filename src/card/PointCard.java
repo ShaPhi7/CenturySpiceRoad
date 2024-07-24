@@ -1,4 +1,6 @@
-package game;
+package card;
+
+import game.SpiceInventory;
 
 public class PointCard extends Card {
 

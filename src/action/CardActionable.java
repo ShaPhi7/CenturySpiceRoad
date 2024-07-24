@@ -1,6 +1,6 @@
 package action;
 
-import game.Card;
+import card.Card;
 import game.Player;
 
 /**
