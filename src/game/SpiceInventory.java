@@ -2,6 +2,7 @@ package game;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class SpiceInventory {
 
@@ -95,4 +96,25 @@ public class SpiceInventory {
 	public int getTotalCubes() {
 		return cubes.values().stream().mapToInt(Integer::intValue).sum();	
 	}
+
+	@Override
+	public String toString() {
+		StringJoiner sj = new StringJoiner(" ");
+		
+		sj.add("SpiceInventory:");
+		sj.add("Y:");
+		sj.add(String.valueOf(getQuantity(Spice.YELLOW_TUMERIC)));
+		sj.add("G:");
+		sj.add(String.valueOf(getQuantity(Spice.RED_SAFFRON)));
+		sj.add("R:");
+		sj.add(String.valueOf(getQuantity(Spice.GREEN_CARDAMOM)));
+		sj.add("B:");
+		sj.add(String.valueOf(getQuantity(Spice.BROWN_CINNAMON)));
+		
+		return sj.toString();
+				
+				
+	}
+	
+	
 }

@@ -30,6 +30,7 @@ public class HandTest {
 		Game.setCurrentPlayer(player);
 		player.addToHand(card);
 		player.setSelectedCard(Optional.of(card));
+		player.setSelectedTimes(1);
 	}
 	
     @Test
@@ -73,6 +74,21 @@ public class HandTest {
     }
     
     @Test
+    public void testValidateActionCanNotAfford() {
+    	SpiceInventory from = new SpiceInventory();
+    	from.addSpices(Spice.YELLOW_TUMERIC, 1);
+    	from.addSpices(Spice.RED_SAFFRON, 1);
+    	SpiceInventory to = new SpiceInventory();
+    	from.addSpices(Spice.BROWN_CINNAMON, 1);
+		TradeCard tradeCard = new TradeCard(from, to);
+		
+		player.addToHand(tradeCard);
+		player.setSelectedCard(Optional.of(tradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
     public void testDoActionWithSpiceCard() {
     	
     	SpiceInventory spiceInventory = new SpiceInventory();
@@ -97,5 +113,33 @@ public class HandTest {
     	
     	assertFalse(player.getHand().contains(spiceCard));
     	assertTrue(player.getDiscard().contains(spiceCard));
+    }
+    
+    @Test
+    public void testDoActionWithTradeCard() {
+    	SpiceInventory from = new SpiceInventory();
+    	from.addSpices(Spice.YELLOW_TUMERIC, 1);
+    	from.addSpices(Spice.RED_SAFFRON, 1);
+    	SpiceInventory to = new SpiceInventory();
+    	to.addSpices(Spice.BROWN_CINNAMON, 1);
+		TradeCard tradeCard = new TradeCard(from, to);
+		
+		player.addToHand(tradeCard);
+		player.setSelectedCard(Optional.of(tradeCard));
+		player.setSelectedTimes(4);
+		
+		player.gainSpices(Spice.YELLOW_TUMERIC, 5);
+		player.gainSpices(Spice.RED_SAFFRON, 5);
+		
+		assertTrue(player.getHand().validateAction(player));
+		player.getHand().doAction(player);
+		
+    	assertEquals(1, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(1, player.getSpiceCount(Spice.RED_SAFFRON));
+    	assertEquals(0, player.getSpiceCount(Spice.GREEN_CARDAMOM));
+    	assertEquals(4, player.getSpiceCount(Spice.BROWN_CINNAMON));
+		
+    	assertFalse(player.getHand().contains(tradeCard));
+    	assertTrue(player.getDiscard().contains(tradeCard));
     }
 }

@@ -65,9 +65,17 @@ public class Hand extends DeckRow {
 			return false;
 		}
 		
-		if (!deck.contains(card))
+		MerchantCard merchantCard = (MerchantCard) card;
+		
+		if (!deck.contains(merchantCard))
 		{
 			System.out.println("Trying to play a card not in players hand");
+			return false;
+		}
+		
+		if (!player.canAffordToPlay(merchantCard))
+		{
+			System.out.println("Player can not afford to play this card");
 			return false;
 		}
 		

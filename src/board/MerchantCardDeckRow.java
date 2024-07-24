@@ -8,6 +8,7 @@ import card.MerchantCard;
 import game.Game;
 import game.Player;
 import game.Spice;
+import game.SpiceInventory;
 
 public class MerchantCardDeckRow extends DeckRow {
 
@@ -29,6 +30,9 @@ public class MerchantCardDeckRow extends DeckRow {
 		placeCubesOnLowerCards(player, card);
 		
 		moveCardTo(player.getHand(), card);
+		
+		SpiceInventory cubesWithAcquire = card.getCubesWithAcquire();
+		player.gainSpices(cubesWithAcquire);
 	}
 
 	private void placeCubesOnLowerCards(Player player, MerchantCard card) {
@@ -58,7 +62,7 @@ public class MerchantCardDeckRow extends DeckRow {
 		}
 		MerchantCard card = cardOptional.orElseThrow();  
 		
-		if (!player.canAfford(card))
+		if (!player.canAffordToAcquire(card))
 		{
 			System.out.println("Player can not afford to purchase that card");
 			return false;

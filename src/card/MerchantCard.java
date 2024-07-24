@@ -9,24 +9,24 @@ import game.SpiceInventory;
 
 public abstract class MerchantCard extends Card {
 
-	SpiceInventory cubes = new SpiceInventory();
+	SpiceInventory cubesWithAcquire = new SpiceInventory();
 	
 	public abstract void play(Player player);
 	
-	public SpiceInventory getCubesOnCard()
+	public SpiceInventory getCubesWithAcquire()
 	{
-		return cubes;
+		return cubesWithAcquire;
 	}
 	
 	public int getTotalNumberOfCubesOnCard() {
-		return cubes.getTotalCubes();
+		return cubesWithAcquire.getTotalCubes();
 	}
 	
 	public void placeCubeOnCard(Spice spice) {
-		cubes.addSpices(spice, 1);
+		cubesWithAcquire.addSpices(spice, 1);
 	}
 	
-	public int getCubeCostOf()
+	public int getAcquireCost()
 	{
 		List<Card> deck = Game.merchantCardDeckRow.getDeck();
 		int indexOf = deck.indexOf(this);

@@ -9,6 +9,9 @@ import board.Hand;
 import card.Card;
 import card.MerchantCard;
 import card.PointCard;
+import card.SpiceCard;
+import card.TradeCard;
+import card.UpgradeCard;
 
 /**
  * aka Caravan
@@ -22,8 +25,9 @@ public class Player {
 	private SpiceInventory caravan = new SpiceInventory();
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;
-	private Optional<Card> selectedCard = Optional.empty(); 
-
+	private Optional<Card> selectedCard = Optional.empty(); //TODO - probably want a PlayerTurn object
+	private int selectedTimes = 1; 
+	
 	public Player(boolean startingPlayer) {
 		this.startingPlayer = startingPlayer;
 		System.out.println("Player entered the game");
@@ -136,10 +140,18 @@ public class Player {
 		this.selectedCard = selectedCard;
 	}
 
+	public int getSelectedTimes() {
+		return selectedTimes;
+	}
+
+	public void setSelectedTimes(int selectedTimes) {
+		this.selectedTimes = selectedTimes;
+	}
+
 	/*
 	 * must pay exact cost
 	 */
-	public boolean canAfford(PointCard card) {
+	public boolean canAffordToClaim(PointCard card) {
 		SpiceInventory cost = card.getCost();
 		return caravan.canAfford(cost);
 	}
@@ -147,8 +159,9 @@ public class Player {
 	/*
 	 * must pay 1 cube per card below it
 	 */
-	public boolean canAfford(MerchantCard card) {
-		int cost = card.getCubeCostOf();
+	public boolean canAffordToAcquire(MerchantCard card) {
+		
+		int cost = card.getAcquireCost();
 		if (getCubeCount() < cost)
 		{
 			return false;
@@ -156,6 +169,34 @@ public class Player {
 		return true;
 	}
 
+	/*
+	 * Must have right cubes
+	 */
+	public boolean canAffordToPlay(MerchantCard card) {
+		if (card instanceof SpiceCard)
+		{
+			//no cost for playing these
+			return true;
+		}
+		else if (card instanceof TradeCard)
+		{
+			TradeCard tradeCard = (TradeCard) card;
+			SpiceInventory from = tradeCard.getFrom();
+			SpiceInventory multSpiceInventory = new SpiceInventory();
+			for (int i=0; i<selectedTimes; i++)
+			{
+				multSpiceInventory.addSpices(from);
+			}
+			return caravan.canAfford(multSpiceInventory);
+		}
+		else if (card instanceof UpgradeCard)
+		{
+			return false;
+		}
+		System.out.println("Unknown class: " + card.getClass());
+		return false;
+	}
+	
 	public List<PointCard> getPointCards() {
 		return getHand().getDeck().stream()
                 .filter(card -> card instanceof PointCard)

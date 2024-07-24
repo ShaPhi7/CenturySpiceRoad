@@ -91,7 +91,7 @@ public class MerchantCardDeckRowTest {
     	merchantCardDeckRow.getDeck().add(0, new TradeCard());
     	merchantCardDeckRow.getDeck().add(0, new TradeCard());
     	
-    	assertEquals(2, tradeCard.getCubeCostOf());
+    	assertEquals(2, tradeCard.getAcquireCost());
     	assertFalse(merchantCardDeckRow.validateAction(player));
     	
     	player.gainSpices(Spice.YELLOW_TUMERIC, 1);
@@ -168,6 +168,14 @@ public class MerchantCardDeckRowTest {
     	assertEquals(1, middleCard.getTotalNumberOfCubesOnCard());
     	assertEquals(0, secondPurchase.getTotalNumberOfCubesOnCard());
     	assertEquals(0, higherCard.getTotalNumberOfCubesOnCard());
+    }
+    
+    @Test
+    public void testGainCubes() {
+    	
+    	tradeCard.placeCubeOnCard(Spice.YELLOW_TUMERIC);
+    	merchantCardDeckRow.doAction(player);
+    	assertEquals(1, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     }
     
     @Test

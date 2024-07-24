@@ -109,7 +109,7 @@ public class PointCardDeckRow extends DeckRow {
 		}
 		PointCard card = cardOptional.orElseThrow();
 		
-		if (!player.canAfford(card))
+		if (!player.canAffordToClaim(card))
 		{
 			System.out.println("Player can not afford to purchase that card");
 			return false;
