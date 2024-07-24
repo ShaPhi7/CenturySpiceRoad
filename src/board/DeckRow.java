@@ -21,14 +21,20 @@ public abstract class DeckRow implements Actionable {
 	
 	public boolean execute()
 	{
-		if (!this.validateAction(Game.currentPlayer))
+		if (!validateAction(Game.currentPlayer))
 		{
 			return false;
 		}
-		this.doAction(Game.currentPlayer);
+		doAction(Game.currentPlayer);
+		completeAction();
 		return true;
 	}
 	
+	private void completeAction() {
+		// TODO discard down to 10 cubes in caravan
+		
+	}
+
 	public boolean basicValidation(Player player) {
 		if (!player.equals(Game.currentPlayer))
 		{
@@ -60,21 +66,25 @@ public abstract class DeckRow implements Actionable {
 		return greatestNumberOfVisibleCards;
 	}
 	
-	boolean isCardVisible(Card card) {
+	public boolean isCardVisible(Card card) {
 		List<Card> visibleCards = getVisibleCards();
 		return visibleCards.contains(card);
 	}
 
+	public boolean contains(Card card) {
+		return deck.contains(card);
+	}
+	
 	public void moveCardTo(DeckRow otherDeck, Card card) {
 		remove(card);
 		otherDeck.add(card);
 	}
 	
-	private void add(Card card) {
+	public void add(Card card) {
 		deck.add(card);
 	}
 	
-	private void remove(Card card) {
+	public void remove(Card card) {
 		deck.remove(card);
 	}
 	

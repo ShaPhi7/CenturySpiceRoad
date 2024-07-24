@@ -1,11 +1,24 @@
 package card;
 
+import game.Player;
+import game.SpiceInventory;
+
 public class SpiceCard extends MerchantCard {
 
-	@Override
-	public void play() {
-		// TODO Auto-generated method stub
-		
+	SpiceInventory spiceInventory;
+	
+	public SpiceCard()
+	{
+		spiceInventory = new SpiceInventory();
 	}
-
+	
+	public SpiceCard(SpiceInventory spiceInventory)
+	{
+		this.spiceInventory = spiceInventory;
+	}
+	
+	@Override
+	public void play(Player player) {
+		player.gainSpices(spiceInventory);
+	}
 }

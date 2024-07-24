@@ -116,8 +116,12 @@ public class Player {
 		this.caravan = caravan;
 	}
 
-	public void gainSpices(Spice spice, int goldCoinCount) {
-		caravan.addSpices(spice, goldCoinCount);
+	public void gainSpices(Spice spice, int quantity) {
+		caravan.addSpices(spice, quantity);
+	}
+	
+	public void gainSpices(SpiceInventory spiceInventory) {
+		caravan.addSpices(spiceInventory);
 	}
 	
 	public int getSpiceCount(Spice spice) {
@@ -153,10 +157,15 @@ public class Player {
 	}
 
 	public List<PointCard> getPointCards() {
-		return hand.getDeck().stream()
+		return getHand().getDeck().stream()
                 .filter(card -> card instanceof PointCard)
                 .map(card -> (PointCard) card)
                 .collect(Collectors.toList());
 	}
 
+	public void play(MerchantCard card) {
+		card.play(this);
+		getHand().remove(card);
+		getDiscard().add(card);
+	}
 }

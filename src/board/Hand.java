@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import card.Card;
+import card.MerchantCard;
 import game.Player;
 
 public class Hand extends DeckRow {
@@ -24,9 +25,8 @@ public class Hand extends DeckRow {
 
 	@Override
 	public void doAction(Player player) {
-		//Card card = player.getSelectedCard().orElseThrow();
-
-		//TODO
+		MerchantCard card = (MerchantCard) player.getSelectedCard().orElseThrow();
+		player.play(card);
 	}
 
 	@Override
@@ -49,15 +49,23 @@ public class Hand extends DeckRow {
 			return false;
 		}
 		
-		Optional<Card> card = player.getSelectedCard();
+		Optional<Card> cardOptional = player.getSelectedCard();
 		
-		if (card.isEmpty())
+		if (cardOptional.isEmpty())
 		{
 			System.out.println("No selected card");
 			return false;
 		}
 		
-		if (!deck.contains(card.orElse(null)))
+		Card card = cardOptional.orElseThrow();
+		
+		if (!(card instanceof MerchantCard))
+		{
+			System.out.println("Player trying to play a non-Merchant card");
+			return false;
+		}
+		
+		if (!deck.contains(card))
 		{
 			System.out.println("Trying to play a card not in players hand");
 			return false;

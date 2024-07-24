@@ -3,6 +3,7 @@ package card;
 import java.util.List;
 
 import game.Game;
+import game.Player;
 import game.Spice;
 import game.SpiceInventory;
 
@@ -10,7 +11,7 @@ public abstract class MerchantCard extends Card {
 
 	SpiceInventory cubes = new SpiceInventory();
 	
-	public abstract void play();
+	public abstract void play(Player player);
 	
 	public SpiceInventory getCubesOnCard()
 	{

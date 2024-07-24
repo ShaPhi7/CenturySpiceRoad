@@ -21,6 +21,17 @@ public class SpiceInventory {
         }
         cubes.put(spice, cubes.get(spice) + quantity);
     }
+    
+    public void addSpices(SpiceInventory otherInventory) {
+        for (Map.Entry<Spice, Integer> entry : otherInventory.cubes.entrySet()) {
+            Spice spice = entry.getKey();
+            int quantityToAdd = entry.getValue();
+            
+            if (quantityToAdd > 0) {
+                addSpices(spice, quantityToAdd);
+            }
+        }
+    }
 
     // Remove spices from the inventory
     public boolean removeSpices(Spice spice, int quantity) {
