@@ -2,6 +2,7 @@ package game;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * aka Caravan
@@ -15,7 +16,8 @@ public class Player {
 	private SpiceInventory caravan = new SpiceInventory();
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;
-	
+	private Optional<Card> selectedCard = Optional.empty(); 
+
 	public Player(boolean startingPlayer) {
 		this.startingPlayer = startingPlayer;
 		System.out.println("Player entered the game");
@@ -78,8 +80,45 @@ public class Player {
 		this.silverCoinCount++;
 	}
 
+	public void setGoldCoinCount(int goldCoinCount) {
+		this.goldCoinCount = goldCoinCount;
+	}
+
+	public void setSilverCoinCount(int silverCoinCount) {
+		this.silverCoinCount = silverCoinCount;
+	}
+	
+	public SpiceInventory getCaravan() {
+		return caravan;
+	}
+
+	public void setCaravan(SpiceInventory caravan) {
+		this.caravan = caravan;
+	}
+
 	public Spice selectCubeFromCaravan() {
 		caravan.getCubes();
 		return Spice.YELLOW_TUMERIC; //TODO - fill in
 	}
+	
+	public Optional<Card> getSelectedCard() {
+		return selectedCard;
+	}
+
+	public void setSelectedCard(Optional<Card> selectedCard) {
+		this.selectedCard = selectedCard;
+	}
+
+	public boolean canAfford(PointCard card) {
+		SpiceInventory cost = card.getCost();
+		return caravan.canAfford(cost);
+	}
+
+	public List<PointCard> getPointCards() {
+		return hand.getDeck().stream()
+                .filter(card -> card instanceof PointCard)
+                .map(card -> (PointCard) card)
+                .collect(Collectors.toList());
+	}
+
 }

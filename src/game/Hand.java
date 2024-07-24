@@ -1,11 +1,17 @@
 package game;
 
+import java.util.List;
 import java.util.Optional;
 
 public class Hand extends DeckRow {
 	
 	public Hand(Optional<Integer> numberOfVisibleCards) {
 		super(numberOfVisibleCards);
+	}
+	
+	public Hand(List<Card> cards) {
+		super(Optional.empty());
+		deck.addAll(cards);
 	}
 
 	@Override

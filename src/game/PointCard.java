@@ -2,8 +2,8 @@ package game;
 
 public class PointCard extends Card {
 
-	private SpiceInventory cost;
-	private int value;
+	private SpiceInventory cost = new SpiceInventory();
+	private int value = 0;
 	
 	public SpiceInventory getCost() {
 		return cost;

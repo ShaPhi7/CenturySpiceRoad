@@ -9,11 +9,11 @@ import action.Actionable;
 public abstract class DeckRow implements Actionable {
 
 	List<Card> deck = new ArrayList<Card>();
-	final Optional<Integer> numberOfVisibleCards;
+	final Optional<Integer> greatestNumberOfVisibleCards;
 	
 	public DeckRow(Optional<Integer> numberOfVisibleCards)
 	{
-		this.numberOfVisibleCards = numberOfVisibleCards;
+		this.greatestNumberOfVisibleCards = numberOfVisibleCards;
 	}
 	
 	public boolean execute()
@@ -40,12 +40,26 @@ public abstract class DeckRow implements Actionable {
 		
 		List<Card> ret = new ArrayList<>();
 		
-		for (int i=0;i<numberOfVisibleCards.orElse(100);i++) //no real limit, just don't go crazy
+		for (int i=0;i<getNumberOfVisibleCards().orElse(100);i++) //no real limit, just don't go crazy
 		{
 			ret.add(deck.get(i));
 		}
 		
 		return ret;
+	}
+
+	private Optional<Integer> getNumberOfVisibleCards() {
+		if (deck.size() < greatestNumberOfVisibleCards.orElse(100))
+		{
+			return Optional.of(deck.size());
+		}
+		
+		return greatestNumberOfVisibleCards;
+	}
+	
+	boolean isCardVisible(Card card) {
+		List<Card> visibleCards = getVisibleCards();
+		return visibleCards.contains(card);
 	}
 
 	public void moveCardTo(DeckRow otherDeck, Card card) {
@@ -68,8 +82,4 @@ public abstract class DeckRow implements Actionable {
 	public void setDeck(List<Card> deck) {
 		this.deck = deck;
 	}
-
-	public Optional<Integer> getNumberOfVisibleCards() {
-		return numberOfVisibleCards;
-	}	
 }

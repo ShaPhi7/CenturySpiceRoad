@@ -70,4 +70,15 @@ public class SpiceInventory {
         }
     }
 
+    public boolean canAfford(SpiceInventory cost) {
+        for (Map.Entry<Spice, Integer> entry : cost.cubes.entrySet()) {
+            Spice spice = entry.getKey();
+            int requiredQuantity = entry.getValue();
+            if (this.getQuantity(spice) < requiredQuantity) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

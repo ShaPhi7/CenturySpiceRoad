@@ -17,8 +17,8 @@ public class Game {
 		
 		while(!shouldEndGame())
 		{
-			currentPlayer = players.getFirst();
-			currentPlayer.getDiscard().execute(); //TODO - add 3 others and make generic
+			setCurrentPlayer(players.getFirst());
+			getCurrentPlayer().getDiscard().execute(); //TODO - add 3 others and make generic
 			Player.nextPlayer(players);
 		}
 	}
@@ -27,6 +27,14 @@ public class Game {
 		//one player has 5 cards (6 if 2 players)
 		//and it is the turn of the starting player
 		return false;
+	}
+
+	public static Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public static void setCurrentPlayer(Player currentPlayer) {
+		Game.currentPlayer = currentPlayer;
 	}
 
 
