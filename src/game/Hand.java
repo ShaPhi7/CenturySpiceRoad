@@ -21,14 +21,46 @@ public class Hand extends DeckRow {
 
 	@Override
 	public void doAction(Player player) {
-		// TODO Auto-generated method stub
+		//Card card = player.getSelectedCard().orElseThrow();
 
+		//TODO
 	}
 
 	@Override
 	public boolean validateAction(Player player) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if (!basicValidation(player))
+		{
+			return false;
+		}
+		
+		if (deck.isEmpty())
+		{
+			System.out.println("Player trying to play cards from an empty deck");
+			return false;
+		}
+		
+		if (player.getHand() != this)
+		{
+			System.out.println("Player trying to play cards from other players hand");
+			return false;
+		}
+		
+		Optional<Card> card = player.getSelectedCard();
+		
+		if (card.isEmpty())
+		{
+			System.out.println("No selected card");
+			return false;
+		}
+		
+		if (!deck.contains(card.orElse(null)))
+		{
+			System.out.println("Trying to play a card not in players hand");
+			return false;
+		}
+		
+		return true;
 	}
 
 }

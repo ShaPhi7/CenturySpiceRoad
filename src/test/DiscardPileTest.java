@@ -1,10 +1,12 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
@@ -12,21 +14,27 @@ import org.junit.Test;
 
 import game.Card;
 import game.DeckRow;
+import game.DiscardPile;
 import game.Game;
 import game.Player;
+import game.TradeCard;
 
 public class DiscardPileTest {
 	 
-	 @Before
-	 public void setUp() {
-		Player.setupPlayers(Game.players);
-	 }
+	Player player = new Player(true);
+	DeckRow discard = player.getDiscard();
+	
+	@Before
+	public void setUp() {
+		player = new Player(true);
+		discard = player.getDiscard();
+		player.getDiscard().getDeck().add(new TradeCard());
+		Game.setCurrentPlayer(player);
+	}
 	 
-	 @Test
-	 public void testRestAction() {
+	@Test
+	public void testRestAction() {
 	        
-		Player player = Game.players.getFirst();
-		DeckRow discard = player.getDiscard();
 		// Before action: discard should have cards and hand should be empty
 		Set<Card> discardBefore = new HashSet<>(discard.getDeck());
 		Set<Card> handBefore = new HashSet<>(player.getHand().getDeck());
@@ -45,12 +53,43 @@ public class DiscardPileTest {
 		assertTrue(handAfter.containsAll(discardBefore), "Hand should contain all cards from discard");
 		assertTrue(handAfter.containsAll(handBefore), "Hand should still contain all cards");
 		assertEquals(handAfter.size(), discardBefore.size(), "Hand size should match number of cards moved from discard");
-	    }
+	 }
 	 
-	    @Test
-	    public void testGetActionName() {
-			Player player = Game.players.getFirst();
-			DeckRow discard = player.getDiscard();
-	    	assertEquals("Rest", discard.getActionName());
-	    }
-	}
+    @Test
+    public void testValidateActionNotCurrentPlayer() {
+    	Game.setCurrentPlayer(new Player(false));
+    	assertFalse(discard.validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionWithNoCardInDiscard() {
+    	discard.getDeck().clear();
+        assertFalse(discard.validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionWithOtherPlayersDiscard() {
+    	Player otherPlayer = new Player(false);
+    	DiscardPile otherDiscard = otherPlayer.getDiscard();
+    	otherDiscard.getDeck().add(new TradeCard());
+        assertFalse(otherDiscard.validateAction(player));
+    }
+ 
+    @Test
+    public void testValidateActionWithNoCardSelected() {
+    	player.setSelectedCard(Optional.empty());
+        assertTrue(discard.validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionWithCardSelected() {
+    	player.setSelectedCard(Optional.of(new TradeCard()));
+        assertTrue(discard.validateAction(player));
+    }
+    
+    @Test
+    public void testGetActionName() {
+		DeckRow discard = player.getDiscard();
+    	assertEquals("Rest", discard.getActionName());
+    }
+}

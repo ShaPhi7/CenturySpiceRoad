@@ -11,8 +11,8 @@ public class Player {
 
 	private final boolean startingPlayer;
 	
-	private DeckRow hand = new Hand();
-	private DeckRow discard = new DiscardPile();
+	private Hand hand = new Hand();
+	private DiscardPile discard = new DiscardPile();
 	private SpiceInventory caravan = new SpiceInventory();
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;
@@ -53,19 +53,24 @@ public class Player {
 		caravan.removeSpices(spice, 1);
 	}
 
-	public DeckRow getHand() {
+	public Hand getHand() {
 		return hand;
 	}
 
-	public void setHand(DeckRow hand) {
+	public void setHand(Hand hand) {
 		this.hand = hand;
 	}
+	
+	public void addToHand(Card card) {
+		List<Card> deck = hand.getDeck();
+		deck.add(card);
+	}
 
-	public DeckRow getDiscard() {
+	public DiscardPile getDiscard() {
 		return discard;
 	}
 
-	public void setDiscard(DeckRow discard) {
+	public void setDiscard(DiscardPile discard) {
 		this.discard = discard;
 	}
 
