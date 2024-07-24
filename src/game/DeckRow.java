@@ -72,7 +72,7 @@ public abstract class DeckRow implements Actionable {
 	}
 	
 	private void remove(Card card) {
-		deck.add(card);
+		deck.remove(card);
 	}
 	
 	public List<Card> getDeck() {

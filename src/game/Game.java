@@ -10,6 +10,8 @@ public class Game {
 	public final static int NUMBER_OF_VISIBLE_POINT_CARDS = 5;
 	
 	public static List<Player> players = new LinkedList<Player>();
+	public static MerchantCardDeckRow merchantCardDeckRow = new MerchantCardDeckRow();
+	public static PointCardDeckRow pointCardDeckRow = new PointCardDeckRow();
 	
 	public static Player currentPlayer;
 	

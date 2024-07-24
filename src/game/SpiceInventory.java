@@ -81,4 +81,7 @@ public class SpiceInventory {
         return true;
     }
 
+	public int getTotalCubes() {
+		return cubes.values().stream().mapToInt(Integer::intValue).sum();	
+	}
 }

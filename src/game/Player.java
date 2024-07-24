@@ -1,6 +1,7 @@
 package game;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,11 @@ public class Player {
 	{
 		caravan.removeSpices(cost);
 	}
+	
+	public void payCube(Spice spice)
+	{
+		caravan.removeSpices(spice, 1);
+	}
 
 	public DeckRow getHand() {
 		return hand;
@@ -88,6 +94,10 @@ public class Player {
 		this.silverCoinCount = silverCoinCount;
 	}
 	
+	private int getCubeCount() {
+		return getCaravan().getTotalCubes();
+	}
+	
 	public SpiceInventory getCaravan() {
 		return caravan;
 	}
@@ -96,9 +106,12 @@ public class Player {
 		this.caravan = caravan;
 	}
 
-	public Spice selectCubeFromCaravan() {
-		caravan.getCubes();
-		return Spice.YELLOW_TUMERIC; //TODO - fill in
+	public void gainSpices(Spice spice, int goldCoinCount) {
+		caravan.addSpices(spice, goldCoinCount);
+	}
+	
+	public int getSpiceCount(Spice spice) {
+		return caravan.getQuantity(spice);
 	}
 	
 	public Optional<Card> getSelectedCard() {
@@ -109,9 +122,24 @@ public class Player {
 		this.selectedCard = selectedCard;
 	}
 
+	/*
+	 * must pay exact cost
+	 */
 	public boolean canAfford(PointCard card) {
 		SpiceInventory cost = card.getCost();
 		return caravan.canAfford(cost);
+	}
+
+	/*
+	 * must pay 1 cube per card below it
+	 */
+	public boolean canAfford(MerchantCard card) {
+		int cost = card.getCubeCostOf();
+		if (getCubeCount() < cost)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public List<PointCard> getPointCards() {

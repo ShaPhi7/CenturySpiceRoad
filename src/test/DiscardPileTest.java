@@ -46,4 +46,11 @@ public class DiscardPileTest {
 		assertTrue(handAfter.containsAll(handBefore), "Hand should still contain all cards");
 		assertEquals(handAfter.size(), discardBefore.size(), "Hand size should match number of cards moved from discard");
 	    }
+	 
+	    @Test
+	    public void testGetActionName() {
+			Player player = Game.players.getFirst();
+			DeckRow discard = player.getDiscard();
+	    	assertEquals("Rest", discard.getActionName());
+	    }
 	}

@@ -1,7 +1,8 @@
 package test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
@@ -9,8 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import game.Game;
+import game.MerchantCard;
 import game.MerchantCardDeckRow;
 import game.Player;
+import game.PointCard;
+import game.Spice;
 import game.SpiceCard;
 import game.TradeCard;
 import game.UpgradeCard;
@@ -36,6 +40,7 @@ public class MerchantCardDeckRowTest {
         player.setSelectedCard(Optional.of(tradeCard));
         
         //Deck setup
+        Game.merchantCardDeckRow = merchantCardDeckRow;
         merchantCardDeckRow.getDeck().add(tradeCard);
         for (int i=0;i<20;i++)
         {
@@ -58,8 +63,8 @@ public class MerchantCardDeckRowTest {
     }
 
     @Test
-    public void testValidatePlayerWithNonPointCard() {
-    	player.setSelectedCard(Optional.of(new TradeCard()));
+    public void testValidatePlayerWithNonMerchantCard() {
+    	player.setSelectedCard(Optional.of(new PointCard()));
     	assertFalse(merchantCardDeckRow.validateAction(player));
     }
     
@@ -80,14 +85,24 @@ public class MerchantCardDeckRowTest {
     	assertFalse(merchantCardDeckRow.validateAction(player));
     }
     
-    /*@Test
-    public void testValidatePlayerCanNotAfford() {
+    @Test
+    public void testValidatePlayerCanAfford() {
     	
-    	SpiceInventory spiceInventory = new SpiceInventory();
-		spiceInventory.addSpices(Spice.YELLOW_TUMERIC, 1);
-    	merchantCard.setCost(spiceInventory);
+    	merchantCardDeckRow.getDeck().add(0, new TradeCard());
+    	merchantCardDeckRow.getDeck().add(0, new TradeCard());
+    	
+    	assertEquals(2, tradeCard.getCubeCostOf());
     	assertFalse(merchantCardDeckRow.validateAction(player));
-    }*/
+    	
+    	player.gainSpices(Spice.YELLOW_TUMERIC, 1);
+    	assertFalse(merchantCardDeckRow.validateAction(player));
+    	
+    	player.gainSpices(Spice.YELLOW_TUMERIC, 1);
+    	assertTrue(merchantCardDeckRow.validateAction(player));
+    	
+    	player.gainSpices(Spice.YELLOW_TUMERIC, 1);
+    	assertTrue(merchantCardDeckRow.validateAction(player));
+    }
     
     @Test
     public void testValidatePlayerAllowedToAcquireTradeCard() {
@@ -111,4 +126,53 @@ public class MerchantCardDeckRowTest {
     	assertTrue(merchantCardDeckRow.validateAction(player));
     }
     
+    @Test
+    public void testValidatePlayerPlaceCubes() {
+
+    	MerchantCard lowestCard = new TradeCard();
+    	MerchantCard lowerCard = new TradeCard();
+    	MerchantCard firstPurchase = new TradeCard();
+    	MerchantCard middleCard = new TradeCard();    	
+    	MerchantCard secondPurchase = new TradeCard();
+    	MerchantCard higherCard = new TradeCard();
+    	
+    	merchantCardDeckRow.getDeck().add(0, lowestCard); //1
+    	merchantCardDeckRow.getDeck().add(1, lowerCard); //2
+    	merchantCardDeckRow.getDeck().add(2, firstPurchase); //3
+    	merchantCardDeckRow.getDeck().add(3, middleCard); //4
+    	merchantCardDeckRow.getDeck().add(4, secondPurchase); //5
+    	merchantCardDeckRow.getDeck().add(5, higherCard); //6
+    	
+    	player.gainSpices(Spice.YELLOW_TUMERIC, 10);
+    	
+    	player.setSelectedCard(Optional.of(firstPurchase));
+    	assertTrue(merchantCardDeckRow.validateAction(player));
+    	merchantCardDeckRow.doAction(player);
+    	
+    	assertEquals(8, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(1, lowestCard.getTotalNumberOfCubesOnCard());
+    	assertEquals(1, lowerCard.getTotalNumberOfCubesOnCard());
+    	assertEquals(0, firstPurchase.getTotalNumberOfCubesOnCard());
+    	assertEquals(0, middleCard.getTotalNumberOfCubesOnCard());
+    	assertEquals(0, secondPurchase.getTotalNumberOfCubesOnCard());
+    	assertEquals(0, higherCard.getTotalNumberOfCubesOnCard());
+    	
+    	player.setSelectedCard(Optional.of(secondPurchase));
+    	assertTrue(merchantCardDeckRow.validateAction(player));
+    	merchantCardDeckRow.doAction(player);
+    	
+    	assertEquals(0, firstPurchase.getTotalNumberOfCubesOnCard());
+    	assertEquals(5, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(2, lowestCard.getTotalNumberOfCubesOnCard());
+    	assertEquals(2, lowerCard.getTotalNumberOfCubesOnCard());
+    	assertEquals(1, middleCard.getTotalNumberOfCubesOnCard());
+    	assertEquals(0, secondPurchase.getTotalNumberOfCubesOnCard());
+    	assertEquals(0, higherCard.getTotalNumberOfCubesOnCard());
+    }
+    
+    @Test
+    public void testGetActionName() {
+    	
+    	assertEquals("Acquire", merchantCardDeckRow.getActionName());
+    }
 }

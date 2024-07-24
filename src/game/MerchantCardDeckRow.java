@@ -17,7 +17,7 @@ public class MerchantCardDeckRow extends DeckRow {
 	@Override
 	public void doAction(Player player) {
 		//Choose card
-		MerchantCard card = new SpiceCard(); //TODO 
+		MerchantCard card = (MerchantCard) player.getSelectedCard().orElseThrow();
 		
 		//pay cubes
 		placeCubesOnLowerCards(player, card);
@@ -29,7 +29,9 @@ public class MerchantCardDeckRow extends DeckRow {
 		int indexOf = deck.indexOf(card);
 		for (int i=0;i<indexOf;i++)
 		{
-			Spice spice = player.selectCubeFromCaravan();
+			Spice spice = Spice.YELLOW_TUMERIC; //TODO - give choice
+			
+			player.payCube(spice);
 			
 			MerchantCard lowerCard = (MerchantCard) deck.get(i);
 			lowerCard.placeCubeOnCard(spice);
@@ -48,7 +50,13 @@ public class MerchantCardDeckRow extends DeckRow {
 		{
 			return false;
 		}
-		MerchantCard card = cardOptional.orElseThrow();
+		MerchantCard card = cardOptional.orElseThrow();  
+		
+		if (!player.canAfford(card))
+		{
+			System.out.println("Player can not afford to purchase that card");
+			return false;
+		}
 		
 		return true;
 	}
@@ -57,12 +65,6 @@ public class MerchantCardDeckRow extends DeckRow {
 		
 		Optional<Card> selectedCard = player.getSelectedCard();
 		
-		if (selectedCard.isEmpty())
-		{
-			System.out.println("Player has no card selected for " + getActionName() + " action");
-			return Optional.empty();
-		}
-		
 		MerchantCard card = null;
 		try {
 		    card = (MerchantCard) selectedCard.orElseThrow();
@@ -70,7 +72,7 @@ public class MerchantCardDeckRow extends DeckRow {
 		    System.out.println("No card was selected");
 		    return Optional.empty();
 		} catch (ClassCastException e) {
-		    System.out.println("Selected card was not a point card");
+		    System.out.println("Selected card was not a merchant card");
 		    return Optional.empty();
 		}
 		
@@ -88,5 +90,5 @@ public class MerchantCardDeckRow extends DeckRow {
 		
 		return Optional.of(card);
 	}
-
+	
 }

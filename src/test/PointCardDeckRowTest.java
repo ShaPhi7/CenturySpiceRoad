@@ -128,21 +128,18 @@ public class PointCardDeckRowTest {
     	
 		pointCard.setCost(pointCardCost);
     	
-		SpiceInventory caravan = new SpiceInventory();
-		caravan.addSpices(Spice.YELLOW_TUMERIC, 4);
-		caravan.addSpices(Spice.RED_SAFFRON, 4);
-		caravan.addSpices(Spice.GREEN_CARDAMOM, 1);
-		caravan.addSpices(Spice.BROWN_CINNAMON, 1);
-    	
-    	player.setCaravan(caravan);
+		player.gainSpices(Spice.YELLOW_TUMERIC, 4);
+		player.gainSpices(Spice.RED_SAFFRON, 4);
+		player.gainSpices(Spice.GREEN_CARDAMOM, 1);
+		player.gainSpices(Spice.BROWN_CINNAMON, 1);
     	
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getCaravan().getQuantity(Spice.YELLOW_TUMERIC), 2);
-    	assertEquals(player.getCaravan().getQuantity(Spice.RED_SAFFRON), 1);
-    	assertEquals(player.getCaravan().getQuantity(Spice.GREEN_CARDAMOM), 0);
-    	assertEquals(player.getCaravan().getQuantity(Spice.BROWN_CINNAMON), 1);
+    	assertEquals(2, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(1, player.getSpiceCount(Spice.RED_SAFFRON));
+    	assertEquals(0, player.getSpiceCount(Spice.GREEN_CARDAMOM));
+    	assertEquals(1, player.getSpiceCount(Spice.BROWN_CINNAMON));
     }
     
     @Test
@@ -154,11 +151,11 @@ public class PointCardDeckRowTest {
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getGoldCoinCount(), 1);
-    	assertEquals(player.getSilverCoinCount(), 0);
+    	assertEquals(1, player.getGoldCoinCount());
+    	assertEquals(0, player.getSilverCoinCount());
 
-    	assertEquals(pointCardDeckRow.getGoldCoins(), 1);
-    	assertEquals(pointCardDeckRow.getSilverCoins(), 2);
+    	assertEquals(1, pointCardDeckRow.getGoldCoins());
+    	assertEquals(2, pointCardDeckRow.getSilverCoins());
     }
     
     @Test
@@ -170,11 +167,11 @@ public class PointCardDeckRowTest {
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(player.getSilverCoinCount(), 1);
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(1, player.getSilverCoinCount());
 
-    	assertEquals(pointCardDeckRow.getGoldCoins(), 0);
-    	assertEquals(pointCardDeckRow.getSilverCoins(), 1);
+    	assertEquals(0, pointCardDeckRow.getGoldCoins());
+    	assertEquals(1, pointCardDeckRow.getSilverCoins());
     }
     
     @Test
@@ -188,11 +185,11 @@ public class PointCardDeckRowTest {
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(player.getSilverCoinCount(), 1);
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(1, player.getSilverCoinCount());
 
-    	assertEquals(pointCardDeckRow.getGoldCoins(), 2);
-    	assertEquals(pointCardDeckRow.getSilverCoins(), 1);
+    	assertEquals(2, pointCardDeckRow.getGoldCoins());
+    	assertEquals(1, pointCardDeckRow.getSilverCoins());
     }
     
     @Test
@@ -206,10 +203,10 @@ public class PointCardDeckRowTest {
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(pointCardDeckRow.getGoldCoins(), 2);
-    	assertEquals(pointCardDeckRow.getSilverCoins(), 0);
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(2, pointCardDeckRow.getGoldCoins());
+    	assertEquals(0, pointCardDeckRow.getSilverCoins());
     }
     
     @Test
@@ -223,10 +220,10 @@ public class PointCardDeckRowTest {
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(pointCardDeckRow.getGoldCoins(), 0);
-    	assertEquals(pointCardDeckRow.getSilverCoins(), 0);
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(0, pointCardDeckRow.getGoldCoins());
+    	assertEquals(0, pointCardDeckRow.getSilverCoins());
     }
     
     @Test
@@ -241,16 +238,16 @@ public class PointCardDeckRowTest {
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
     	
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(player.getGoldCoinCount(), 0);
-    	assertEquals(pointCardDeckRow.getGoldCoins(), 0);
-    	assertEquals(pointCardDeckRow.getSilverCoins(), 0);
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(0, player.getGoldCoinCount());
+    	assertEquals(0, pointCardDeckRow.getGoldCoins());
+    	assertEquals(0, pointCardDeckRow.getSilverCoins());
     }
     
     @Test
     public void testGetActionName() {
     	
-    	assertEquals(pointCardDeckRow.getActionName(), "Claim");
+    	assertEquals("Claim", pointCardDeckRow.getActionName());
     }
     
 }
