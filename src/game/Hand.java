@@ -5,8 +5,8 @@ import java.util.Optional;
 
 public class Hand extends DeckRow {
 	
-	public Hand(Optional<Integer> numberOfVisibleCards) {
-		super(numberOfVisibleCards);
+	public Hand() {
+		super(Optional.empty());
 	}
 	
 	public Hand(List<Card> cards) {

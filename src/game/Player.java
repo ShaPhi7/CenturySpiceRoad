@@ -1,7 +1,6 @@
 package game;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -12,8 +11,8 @@ public class Player {
 
 	private final boolean startingPlayer;
 	
-	private DeckRow hand = new Hand(Optional.empty());
-	private DeckRow discard = new DiscardPile(Optional.empty());
+	private DeckRow hand = new Hand();
+	private DeckRow discard = new DiscardPile();
 	private SpiceInventory caravan = new SpiceInventory();
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;

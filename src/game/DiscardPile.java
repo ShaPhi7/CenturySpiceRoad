@@ -5,8 +5,8 @@ import java.util.Optional;
 
 public class DiscardPile extends DeckRow {
 	
-	public DiscardPile(Optional<Integer> numberOfVisibleCards) {
-		super(numberOfVisibleCards);
+	public DiscardPile() {
+		super(Optional.empty());
 	}
 	
 	@Override
