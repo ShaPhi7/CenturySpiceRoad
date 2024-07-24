@@ -9,7 +9,7 @@ public class PointCardDeckRow extends DeckRow {
 	private int silverCoins;
 	
 	public PointCardDeckRow() {
-		super(Optional.of(Integer.valueOf(5))); //TODO - number of players
+		super(Optional.of(Integer.valueOf(Game.NUMBER_OF_VISIBLE_POINT_CARDS)));
 		this.goldCoins = Game.players.size() * 2;
 		this.silverCoins = Game.players.size() * 2;
 	}

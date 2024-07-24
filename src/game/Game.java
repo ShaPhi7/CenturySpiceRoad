@@ -6,6 +6,8 @@ import java.util.List;
 public class Game {
 
 	public static int NUMBER_OF_PLAYERS = 4;
+	public final static int NUMBER_OF_VISIBLE_MERCHANT_CARDS = 6;
+	public final static int NUMBER_OF_VISIBLE_POINT_CARDS = 5;
 	
 	public static List<Player> players = new LinkedList<Player>();
 	
