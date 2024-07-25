@@ -1,6 +1,7 @@
 package card;
 
 import game.Player;
+import game.Spice;
 import game.SpiceInventory;
 import game.SpiceUpgrade;
 
@@ -25,7 +26,19 @@ public class UpgradeCard extends MerchantCard {
 	
 	@Override
 	public void play(Player player) {
-		//TODO
+		for (SpiceUpgrade su : player.getSelectedUpgrades())
+		{
+			Spice cubeToBeUpgraded = su.getCubeToBeUpgraded();
+			player.payCube(cubeToBeUpgraded);
+			Spice upgradedCube = null;
+			
+			for (int i=0; i<su.getNumberOfTimesToUpgrade(); i++)
+			{
+				upgradedCube = cubeToBeUpgraded.getUpgrade();
+				cubeToBeUpgraded = upgradedCube;
+			}
+			player.gainSpice(upgradedCube);
+		}
 		
 	}
 

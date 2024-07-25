@@ -120,6 +120,11 @@ public class Player {
 		this.caravan = caravan;
 	}
 
+	public void gainSpice(Spice spice)
+	{
+		gainSpices(spice, 1);
+	}
+	
 	public void gainSpices(Spice spice, int quantity) {
 		caravan.addSpices(spice, quantity);
 	}

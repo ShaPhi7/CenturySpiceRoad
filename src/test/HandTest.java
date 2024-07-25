@@ -354,4 +354,28 @@ public class HandTest {
     	assertEquals(1, player.getSpiceCount(Spice.GREEN_CARDAMOM));
     	assertEquals(0, player.getSpiceCount(Spice.BROWN_CINNAMON));
     }
+    
+    @Test
+    public void testDoActionWithUpgradeCardSameColourThrice() {
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 3));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(3);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertTrue(player.getHand().validateAction(player));
+		player.getHand().doAction(player);
+		
+    	assertEquals(0, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(0, player.getSpiceCount(Spice.RED_SAFFRON));
+    	assertEquals(0, player.getSpiceCount(Spice.GREEN_CARDAMOM));
+    	assertEquals(1, player.getSpiceCount(Spice.BROWN_CINNAMON));
+    }
 }
