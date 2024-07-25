@@ -1,4 +1,4 @@
-package test;
+package game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import game.Game;
-import game.Player;
 
 public class PlayerTest {
 

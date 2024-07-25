@@ -1,4 +1,4 @@
-package test;
+package board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -12,8 +12,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import board.DeckRow;
-import board.DiscardPile;
 import card.Card;
 import card.TradeCard;
 import game.Game;

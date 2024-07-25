@@ -1,4 +1,4 @@
-package test;
+package board;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
-import board.Hand;
 import card.Card;
 import card.PointCard;
 import card.SpiceCard;
