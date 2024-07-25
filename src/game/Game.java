@@ -18,7 +18,7 @@ public class Game {
 	
 	public static Player currentPlayer;
 	
-	public static void main(String[] args) {
+	void main() {
 
 		Player.setupPlayers(players);
 		

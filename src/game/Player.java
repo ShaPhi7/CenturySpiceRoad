@@ -10,6 +10,7 @@ import board.Hand;
 import card.Card;
 import card.MerchantCard;
 import card.PointCard;
+import card.UpgradeCard;
 
 /**
  * aka Caravan
@@ -179,5 +180,24 @@ public class Player {
 		card.play(this);
 		getHand().remove(card);
 		getDiscard().add(card);
+	}
+	
+	/*
+	 * If an Upgrade card is not selected, then we would not expect to have any selected upgrades to fail this check.
+	 * I do not see a need to explicitly check that it is empty though.
+	 */
+	public boolean selectedUpgradesAreSensible() {
+		 return getSelectedUpgrades().stream().noneMatch(spiceUpgrade ->
+	        spiceUpgrade.getNumberOfTimesToUpgrade() > SpiceUpgrade.getMaxUpgrades().getOrDefault(spiceUpgrade.getCubeToBeUpgraded(), 0));
+	}
+
+	public boolean selectedMoreUpgradesThanPermitted(Card card) {
+		if (!(card instanceof UpgradeCard upgradeCard))
+		{
+			//only applicable to upgrade cards
+			return true;
+		}
+		
+		return SpiceUpgrade.getTotalUpgrades(getSelectedUpgrades()) <= upgradeCard.getPermittedUpgrades();
 	}
 }

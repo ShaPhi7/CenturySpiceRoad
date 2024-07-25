@@ -79,6 +79,18 @@ public class Hand extends DeckRow {
 			return false;
 		}
 		
+		if (!player.selectedUpgradesAreSensible())
+		{
+			System.out.println("Trying to upgrade cubes beyond brown");
+			return false;
+		}
+		
+		if (!player.selectedMoreUpgradesThanPermitted(card))
+		{
+			System.out.println("Trying to upgrade more cubes than the card permits");
+			return false;
+		}
+		
 		return true;
 	}
 

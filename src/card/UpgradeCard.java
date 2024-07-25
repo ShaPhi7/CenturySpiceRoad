@@ -36,5 +36,4 @@ public class UpgradeCard extends MerchantCard {
 	public void setPermittedUpgrades(int permittedUpgrades) {
 		this.permittedUpgrades = permittedUpgrades;
 	}
-
 }

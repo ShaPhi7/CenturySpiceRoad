@@ -93,7 +93,7 @@ public class HandTest {
     }
     
     @Test
-    public void testValidateActionCanNotAffordUpgradeCard() {	
+    public void testValidateActionCanNotAffordUpgradeCardWrongColour() {	
 		SpiceInventory caravan = new SpiceInventory();
 		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
 		caravan.addSpices(Spice.RED_SAFFRON, 1);
@@ -105,7 +105,141 @@ public class HandTest {
 		player.setCaravan(caravan);
 		player.setSelectedUpgrades(sul);
 		
-		UpgradeCard upgradeCard = new UpgradeCard();
+		UpgradeCard upgradeCard = new UpgradeCard(4);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotAffordUpgradeCardNotEnoughColour() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+		caravan.addSpices(Spice.RED_SAFFRON, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 2));
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 1));
+    	sul.add(new SpiceUpgrade(Spice.RED_SAFFRON, 1));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(4);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotAffordUpgradeCardNotEnoughUpgradesDifferentColour() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+		caravan.addSpices(Spice.RED_SAFFRON, 1);
+		caravan.addSpices(Spice.GREEN_CARDAMOM, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 1));
+    	sul.add(new SpiceUpgrade(Spice.RED_SAFFRON, 1));
+    	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 1));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(2);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotAffordUpgradeCardNotEnoughUpgradesSameColour() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 3);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 3));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(2);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotUpgradeBrown() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+		caravan.addSpices(Spice.BROWN_CINNAMON, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.BROWN_CINNAMON, 1));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(4);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotUpgradeGreenTwice() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.GREEN_CARDAMOM, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 2));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(4);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotUpgradeRedThrice() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.RED_SAFFRON, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.RED_SAFFRON, 3));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(4);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotUpgradeYellow4TimesSanity() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 4));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
 		player.setSelectedCard(Optional.of(upgradeCard));
 		
@@ -165,5 +299,59 @@ public class HandTest {
 		
     	assertFalse(player.getHand().contains(tradeCard));
     	assertTrue(player.getDiscard().contains(tradeCard));
+    }
+    
+    @Test
+    public void testDoActionWithUpgradeCard() {
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+		caravan.addSpices(Spice.RED_SAFFRON, 1);
+		caravan.addSpices(Spice.GREEN_CARDAMOM, 1);
+		caravan.addSpices(Spice.BROWN_CINNAMON, 4);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 2));
+    	sul.add(new SpiceUpgrade(Spice.RED_SAFFRON, 1));
+    	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 1));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(4);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertTrue(player.getHand().validateAction(player));
+		player.getHand().doAction(player);
+		
+    	assertEquals(0, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(0, player.getSpiceCount(Spice.RED_SAFFRON));
+    	assertEquals(2, player.getSpiceCount(Spice.GREEN_CARDAMOM));
+    	assertEquals(5, player.getSpiceCount(Spice.BROWN_CINNAMON));
+    }
+    
+    @Test
+    public void testDoActionWithUpgradeCardSameColourTwice() {
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 2);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 2));
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 1));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard(3);
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
+		
+		assertTrue(player.getHand().validateAction(player));
+		player.getHand().doAction(player);
+		
+    	assertEquals(0, player.getSpiceCount(Spice.YELLOW_TUMERIC));
+    	assertEquals(1, player.getSpiceCount(Spice.RED_SAFFRON));
+    	assertEquals(1, player.getSpiceCount(Spice.GREEN_CARDAMOM));
+    	assertEquals(0, player.getSpiceCount(Spice.BROWN_CINNAMON));
     }
 }
