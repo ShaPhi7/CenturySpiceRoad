@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,9 +10,6 @@ import board.Hand;
 import card.Card;
 import card.MerchantCard;
 import card.PointCard;
-import card.SpiceCard;
-import card.TradeCard;
-import card.UpgradeCard;
 
 /**
  * aka Caravan
@@ -26,7 +24,8 @@ public class Player {
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;
 	private Optional<Card> selectedCard = Optional.empty(); //TODO - probably want a PlayerTurn object
-	private int selectedTimes = 1; 
+	private int selectedNumberOfTrades = 1; 
+	private List<SpiceUpgrade> selectedUpgrades = new ArrayList<>();
 	
 	public Player(boolean startingPlayer) {
 		this.startingPlayer = startingPlayer;
@@ -140,61 +139,33 @@ public class Player {
 		this.selectedCard = selectedCard;
 	}
 
-	public int getSelectedTimes() {
-		return selectedTimes;
+	public int getSelectedNumberOfTrades() {
+		return selectedNumberOfTrades;
 	}
 
-	public void setSelectedTimes(int selectedTimes) {
-		this.selectedTimes = selectedTimes;
+	public void setSelectedNumberOfTrades(int selectedNumberOfTrades) {
+		this.selectedNumberOfTrades = selectedNumberOfTrades;
 	}
 
-	/*
-	 * must pay exact cost
-	 */
-	public boolean canAffordToClaim(PointCard card) {
-		SpiceInventory cost = card.getCost();
+	public List<SpiceUpgrade> getSelectedUpgrades() {
+		return selectedUpgrades;
+	}
+
+	public void setSelectedUpgrades(List<SpiceUpgrade> selectedUpgrades) {
+		this.selectedUpgrades = selectedUpgrades;
+	}
+
+	public boolean canAfford(Card card) {
+		SpiceInventory cost = card.getCost(this);
 		return caravan.canAfford(cost);
 	}
-
+	
 	/*
 	 * must pay 1 cube per card below it
 	 */
 	public boolean canAffordToAcquire(MerchantCard card) {
-		
-		int cost = card.getAcquireCost();
-		if (getCubeCount() < cost)
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/*
-	 * Must have right cubes
-	 */
-	public boolean canAffordToPlay(MerchantCard card) {
-		if (card instanceof SpiceCard)
-		{
-			//no cost for playing these
-			return true;
-		}
-		else if (card instanceof TradeCard)
-		{
-			TradeCard tradeCard = (TradeCard) card;
-			SpiceInventory from = tradeCard.getFrom();
-			SpiceInventory multSpiceInventory = new SpiceInventory();
-			for (int i=0; i<selectedTimes; i++)
-			{
-				multSpiceInventory.addSpices(from);
-			}
-			return caravan.canAfford(multSpiceInventory);
-		}
-		else if (card instanceof UpgradeCard)
-		{
-			return false;
-		}
-		System.out.println("Unknown class: " + card.getClass());
-		return false;
+		int cost = card.getCostToAcquire();
+		return getCubeCount() >= cost;
 	}
 	
 	public List<PointCard> getPointCards() {

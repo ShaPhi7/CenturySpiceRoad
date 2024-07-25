@@ -91,7 +91,7 @@ public class MerchantCardDeckRowTest {
     	merchantCardDeckRow.getDeck().add(0, new TradeCard());
     	merchantCardDeckRow.getDeck().add(0, new TradeCard());
     	
-    	assertEquals(2, tradeCard.getAcquireCost());
+    	assertEquals(2, tradeCard.getCostToAcquire());
     	assertFalse(merchantCardDeckRow.validateAction(player));
     	
     	player.gainSpices(Spice.YELLOW_TUMERIC, 1);

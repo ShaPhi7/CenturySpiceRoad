@@ -15,6 +15,10 @@ public class SpiceInventory {
         }
     }
     
+    public void addSpice(Spice spice) {
+    	addSpices(spice, 1);
+    }
+    
     // Add spices to the inventory
     public void addSpices(Spice spice, int quantity) {
         if (quantity < 0) {

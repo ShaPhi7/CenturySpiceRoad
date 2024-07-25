@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -14,10 +16,12 @@ import card.Card;
 import card.PointCard;
 import card.SpiceCard;
 import card.TradeCard;
+import card.UpgradeCard;
 import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import game.SpiceUpgrade;
 
 public class HandTest {
 
@@ -30,7 +34,7 @@ public class HandTest {
 		Game.setCurrentPlayer(player);
 		player.addToHand(card);
 		player.setSelectedCard(Optional.of(card));
-		player.setSelectedTimes(1);
+		player.setSelectedNumberOfTrades(1);
 	}
 	
     @Test
@@ -74,7 +78,7 @@ public class HandTest {
     }
     
     @Test
-    public void testValidateActionCanNotAfford() {
+    public void testValidateActionCanNotAffordTradeCard() {
     	SpiceInventory from = new SpiceInventory();
     	from.addSpices(Spice.YELLOW_TUMERIC, 1);
     	from.addSpices(Spice.RED_SAFFRON, 1);
@@ -84,6 +88,26 @@ public class HandTest {
 		
 		player.addToHand(tradeCard);
 		player.setSelectedCard(Optional.of(tradeCard));
+		
+		assertFalse(player.getHand().validateAction(player));
+    }
+    
+    @Test
+    public void testValidateActionCanNotAffordUpgradeCard() {	
+		SpiceInventory caravan = new SpiceInventory();
+		caravan.addSpices(Spice.YELLOW_TUMERIC, 1);
+		caravan.addSpices(Spice.RED_SAFFRON, 1);
+    	
+    	List<SpiceUpgrade> sul = new ArrayList<>();
+    	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 2));
+    	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 1));
+    	
+		player.setCaravan(caravan);
+		player.setSelectedUpgrades(sul);
+		
+		UpgradeCard upgradeCard = new UpgradeCard();
+		player.addToHand(upgradeCard);
+		player.setSelectedCard(Optional.of(upgradeCard));
 		
 		assertFalse(player.getHand().validateAction(player));
     }
@@ -126,7 +150,7 @@ public class HandTest {
 		
 		player.addToHand(tradeCard);
 		player.setSelectedCard(Optional.of(tradeCard));
-		player.setSelectedTimes(4);
+		player.setSelectedNumberOfTrades(4);
 		
 		player.gainSpices(Spice.YELLOW_TUMERIC, 5);
 		player.gainSpices(Spice.RED_SAFFRON, 5);

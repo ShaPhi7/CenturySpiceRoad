@@ -1,5 +1,9 @@
 package card;
 
+import game.Player;
+import game.SpiceInventory;
+
 public abstract class Card {
-	//base abstract class
+
+	public abstract SpiceInventory getCost(Player player);
 }

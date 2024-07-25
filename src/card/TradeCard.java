@@ -21,8 +21,19 @@ public class TradeCard extends MerchantCard {
 	}
 	
 	@Override
+	public SpiceInventory getCost(Player player) {
+
+		SpiceInventory multSpiceInventory = new SpiceInventory();
+		for (int i=0; i<player.getSelectedNumberOfTrades(); i++)
+		{
+			multSpiceInventory.addSpices(from);
+		}
+		return multSpiceInventory;
+	}
+	
+	@Override
 	public void play(Player player) {
-		for (int i=0;i<player.getSelectedTimes();i++)
+		for (int i=0;i<player.getSelectedNumberOfTrades();i++)
 		{
 			player.payCubes(from);
 			player.gainSpices(to);
@@ -35,5 +46,5 @@ public class TradeCard extends MerchantCard {
 
 	public SpiceInventory getTo() {
 		return to;
-	}	
+	}
 }

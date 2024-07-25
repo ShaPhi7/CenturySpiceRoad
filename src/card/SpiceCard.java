@@ -18,6 +18,11 @@ public class SpiceCard extends MerchantCard {
 	}
 	
 	@Override
+	public SpiceInventory getCost(Player player) {
+		return new SpiceInventory();
+	}
+	
+	@Override
 	public void play(Player player) {
 		player.gainSpices(spiceInventory);
 	}

@@ -73,7 +73,7 @@ public class Hand extends DeckRow {
 			return false;
 		}
 		
-		if (!player.canAffordToPlay(merchantCard))
+		if (!player.canAfford(merchantCard))
 		{
 			System.out.println("Player can not afford to play this card");
 			return false;

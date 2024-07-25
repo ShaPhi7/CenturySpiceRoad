@@ -26,7 +26,7 @@ public abstract class MerchantCard extends Card {
 		cubesWithAcquire.addSpices(spice, 1);
 	}
 	
-	public int getAcquireCost()
+	public int getCostToAcquire()
 	{
 		List<Card> deck = Game.merchantCardDeckRow.getDeck();
 		int indexOf = deck.indexOf(this);

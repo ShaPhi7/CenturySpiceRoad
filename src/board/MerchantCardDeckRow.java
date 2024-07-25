@@ -64,7 +64,7 @@ public class MerchantCardDeckRow extends DeckRow {
 		
 		if (!player.canAffordToAcquire(card))
 		{
-			System.out.println("Player can not afford to purchase that card");
+			System.out.println("Player can not afford to purchase that merchant card");
 			return false;
 		}
 		
