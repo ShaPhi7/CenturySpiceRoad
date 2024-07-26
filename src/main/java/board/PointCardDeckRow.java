@@ -1,5 +1,9 @@
 package board;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -152,6 +156,39 @@ public class PointCardDeckRow extends DeckRow {
 		}
 		
 		return Optional.of(card);
+	}
+
+	public boolean populateFromCsv() throws IOException {
+        
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("point-cards.csv");
+
+        if (inputStream == null) {
+            System.out.println("File not found!");
+            return false;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            
+            System.out.println("Header: " + reader.readLine());
+            
+            while ((line = reader.readLine()) != null) {
+
+            	String[] parts = line.split(",");
+                if (parts.length == 5) {
+                    int y = Integer.parseInt(parts[0].trim());
+                    int r = Integer.parseInt(parts[1].trim());
+                    int g = Integer.parseInt(parts[2].trim());
+                    int b = Integer.parseInt(parts[3].trim());
+                    int v = Integer.parseInt(parts[4].trim());
+                    
+                    deck.add(new PointCard(y, r, g, b, v));
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+		return true;
 	}
 
 }

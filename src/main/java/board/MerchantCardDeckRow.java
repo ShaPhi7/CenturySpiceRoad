@@ -100,5 +100,9 @@ public class MerchantCardDeckRow extends DeckRow {
 		
 		return Optional.of(card);
 	}
-	
+
+	public void populateFromCsv() {
+		// TODO Auto-generated method stub
+		
+	}
 }

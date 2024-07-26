@@ -33,4 +33,29 @@ public abstract class MerchantCard extends Card {
 		
 		return Math.max(indexOf, 0);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cubesWithAcquire == null) ? 0 : cubesWithAcquire.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MerchantCard other = (MerchantCard) obj;
+		if (cubesWithAcquire == null) {
+			if (other.cubesWithAcquire != null)
+				return false;
+		} else if (!cubesWithAcquire.equals(other.cubesWithAcquire))
+			return false;
+		return true;
+	}
 }

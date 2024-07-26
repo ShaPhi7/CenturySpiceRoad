@@ -2,7 +2,6 @@ package game;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
 
 public class SpiceInventory {
 
@@ -13,6 +12,14 @@ public class SpiceInventory {
         for (Spice spice : Spice.values()) {
             cubes.put(spice, 0);
         }
+    }
+    
+    public SpiceInventory(int y, int r, int g, int b) {
+        cubes = new HashMap<>();
+        cubes.put(Spice.YELLOW_TUMERIC, y);
+        cubes.put(Spice.RED_SAFFRON, r);
+        cubes.put(Spice.GREEN_CARDAMOM, g);
+        cubes.put(Spice.BROWN_CINNAMON, b);
     }
     
     public void addSpice(Spice spice) {
@@ -103,22 +110,42 @@ public class SpiceInventory {
 
 	@Override
 	public String toString() {
-		StringJoiner sj = new StringJoiner(" ");
+		StringBuilder sb = new StringBuilder();
 		
-		sj.add("SpiceInventory:");
-		sj.add("Y:");
-		sj.add(String.valueOf(getQuantity(Spice.YELLOW_TUMERIC)));
-		sj.add("G:");
-		sj.add(String.valueOf(getQuantity(Spice.RED_SAFFRON)));
-		sj.add("R:");
-		sj.add(String.valueOf(getQuantity(Spice.GREEN_CARDAMOM)));
-		sj.add("B:");
-		sj.add(String.valueOf(getQuantity(Spice.BROWN_CINNAMON)));
+		sb.append("Y:");
+		sb.append(String.valueOf(getQuantity(Spice.YELLOW_TUMERIC)));
+		sb.append(" G:");
+		sb.append(String.valueOf(getQuantity(Spice.RED_SAFFRON)));
+		sb.append(" R:");
+		sb.append(String.valueOf(getQuantity(Spice.GREEN_CARDAMOM)));
+		sb.append(" B:");
+		sb.append(String.valueOf(getQuantity(Spice.BROWN_CINNAMON)));
 		
-		return sj.toString();
-				
-				
+		return sb.toString();		
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cubes == null) ? 0 : cubes.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SpiceInventory other = (SpiceInventory) obj;
+		if (cubes == null) {
+			if (other.cubes != null)
+				return false;
+		} else if (!cubes.equals(other.cubes))
+			return false;
+		return true;
+	}
 }

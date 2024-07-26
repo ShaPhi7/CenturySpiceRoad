@@ -1,5 +1,6 @@
 package game;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class Game {
 	public static int NUMBER_OF_PLAYERS = 4;
 	public final static int NUMBER_OF_VISIBLE_MERCHANT_CARDS = 6;
 	public final static int NUMBER_OF_VISIBLE_POINT_CARDS = 5;
+	public final static int POINT_CARDS_GOAL_FOR_ONLY_TWO_PLAYERS = 6;
+	public final static int POINT_CARDS_GOAL_FOR_OVER_TWO_PLAYERS = 5;
 	
 	public static List<Player> players = new LinkedList<Player>();
 	public static MerchantCardDeckRow merchantCardDeckRow = new MerchantCardDeckRow();
@@ -18,16 +21,29 @@ public class Game {
 	
 	public static Player currentPlayer;
 	
-	void main() {
+	public static void main(String[] args) {
 
-		Player.setupPlayers(players);
-		
-		while(!shouldEndGame())
-		{
-			setCurrentPlayer(players.getFirst());
-			getCurrentPlayer().getDiscard().execute(); //TODO - add 3 others and make generic
-			Player.nextPlayer(players);
+		try {
+			Player.setupPlayers(players);
+			
+			populateDecks();
+			
+			while(!shouldEndGame())
+			{
+				setCurrentPlayer(players.getFirst());
+				getCurrentPlayer().getDiscard().execute(); //TODO - add 3 others and make generic
+				Player.nextPlayer(players);
+			}
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void populateDecks() throws IOException {
+		merchantCardDeckRow.populateFromCsv();
+		pointCardDeckRow.populateFromCsv();
+		
 	}
 
 	private static boolean shouldEndGame() {
@@ -36,6 +52,16 @@ public class Game {
 		return false;
 	}
 
+	private static int targetNumberOfPointCards()
+	{
+		if (NUMBER_OF_PLAYERS == 2)
+		{
+			return POINT_CARDS_GOAL_FOR_ONLY_TWO_PLAYERS;
+		}
+		
+		return POINT_CARDS_GOAL_FOR_OVER_TWO_PLAYERS;
+	}
+	
 	public static Player getCurrentPlayer() {
 		return currentPlayer;
 	}

@@ -49,4 +49,31 @@ public class UpgradeCard extends MerchantCard {
 	public void setPermittedUpgrades(int permittedUpgrades) {
 		this.permittedUpgrades = permittedUpgrades;
 	}
+
+	@Override
+	public String toString() {
+		return "MerchantCard [ Upgrade " + permittedUpgrades + " spices]";
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + permittedUpgrades;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UpgradeCard other = (UpgradeCard) obj;
+		if (permittedUpgrades != other.permittedUpgrades)
+			return false;
+		return true;
+	}
 }
