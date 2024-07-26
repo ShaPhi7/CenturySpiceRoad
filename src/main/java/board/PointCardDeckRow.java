@@ -158,9 +158,9 @@ public class PointCardDeckRow extends DeckRow {
 		return Optional.of(card);
 	}
 
-	public boolean populateFromCsv() throws IOException {
+	public boolean populateFromCsv(String filename) throws IOException {
         
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("point-cards.csv");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
 
         if (inputStream == null) {
             System.out.println("File not found!");

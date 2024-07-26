@@ -1,10 +1,18 @@
 package board;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import card.Card;
 import card.MerchantCard;
+import card.SpiceCard;
+import card.TradeCard;
+import card.UpgradeCard;
 import game.Game;
 import game.Player;
 import game.Spice;
@@ -101,8 +109,46 @@ public class MerchantCardDeckRow extends DeckRow {
 		return Optional.of(card);
 	}
 
-	public void populateFromCsv() {
-		// TODO Auto-generated method stub
-		
+	public boolean populateFromCsv(String filename) throws IOException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
+
+        if (inputStream == null) {
+            System.out.println("File not found!");
+            return false;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            
+            System.out.println("Header: " + reader.readLine());
+            
+            while ((line = reader.readLine()) != null) {
+
+            	String[] parts = line.split(",");
+                String type = parts[0];
+				int[] ints = Arrays.stream(parts, 1, parts.length)
+				        .mapToInt(Integer::parseInt)
+				        .toArray();
+				MerchantCard merchantCard = null;
+				switch (type) {
+                    case "s":
+                    	merchantCard = new SpiceCard(new SpiceInventory(ints[0], ints[1], ints[2], ints[3]));
+                        break;
+                    case "t":
+                    	merchantCard = new TradeCard(new SpiceInventory(ints[0], ints[1], ints[2], ints[3]),
+                        			  new SpiceInventory(ints[4], ints[5], ints[6], ints[7]));
+                        break;
+                    case "u":
+                    	merchantCard = new UpgradeCard(ints[0]);
+                        break;
+                    default:
+                        System.out.println("Unknown card type: " + type);
+                }
+				deck.add(merchantCard);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+		return true;
 	}
 }

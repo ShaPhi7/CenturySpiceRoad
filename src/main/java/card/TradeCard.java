@@ -50,7 +50,7 @@ public class TradeCard extends MerchantCard {
 	
 	@Override
 	public String toString() {
-		return "MerchantCard [Trade " + from + "->" + to + "]";
+		return "MerchantCard [Trade " + from + " -> " + to + "]";
 	}
 
 	@Override

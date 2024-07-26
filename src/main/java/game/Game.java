@@ -41,8 +41,8 @@ public class Game {
 	}
 
 	private static void populateDecks() throws IOException {
-		merchantCardDeckRow.populateFromCsv();
-		pointCardDeckRow.populateFromCsv();
+		merchantCardDeckRow.populateFromCsv("merchant-card-deck.csv");
+		pointCardDeckRow.populateFromCsv("point-card-deck.csv");
 		
 	}
 

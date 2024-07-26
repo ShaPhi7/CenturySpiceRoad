@@ -52,7 +52,7 @@ public class UpgradeCard extends MerchantCard {
 
 	@Override
 	public String toString() {
-		return "MerchantCard [ Upgrade " + permittedUpgrades + " spices]";
+		return "MerchantCard [Upgrade " + permittedUpgrades + " spices]";
 	}
 	
 	@Override

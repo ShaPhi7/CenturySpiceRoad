@@ -9,7 +9,7 @@ import game.SpiceInventory;
 
 public abstract class MerchantCard extends Card {
 
-	SpiceInventory cubesWithAcquire = new SpiceInventory();
+	private SpiceInventory cubesWithAcquire = new SpiceInventory();
 	
 	public abstract void play(Player player);
 	
