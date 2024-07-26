@@ -1,6 +1,7 @@
 package board;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,10 @@ public abstract class DeckRow implements Actionable {
 		return ret;
 	}
 
+	public void shuffle() {
+		Collections.shuffle(deck);
+	}
+	
 	private Optional<Integer> getNumberOfVisibleCards() {
 		if (deck.size() < greatestNumberOfVisibleCards.orElse(100))
 		{

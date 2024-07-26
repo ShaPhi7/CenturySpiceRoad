@@ -27,6 +27,7 @@ public class Game {
 			Player.setupPlayers(players);
 			
 			populateDecks();
+			shuffleDecks();
 			
 			while(!shouldEndGame())
 			{
@@ -45,14 +46,23 @@ public class Game {
 		pointCardDeckRow.populateFromCsv("point-card-deck.csv");
 		
 	}
+	
+	private static void shuffleDecks() {
+		merchantCardDeckRow.shuffle();
+		pointCardDeckRow.shuffle();
+	}
 
-	private static boolean shouldEndGame() {
-		//one player has 5 cards (6 if 2 players)
-		//and it is the turn of the starting player
+	public static boolean shouldEndGame() {
+		
+		if (players.stream().anyMatch(p -> p.getPointCards().size() >= getTargetNumberOfPointCards())
+		  && currentPlayer.isStartingPlayer()) {
+			return true;
+		}
+		
 		return false;
 	}
 
-	private static int targetNumberOfPointCards()
+	public static int getTargetNumberOfPointCards()
 	{
 		if (NUMBER_OF_PLAYERS == 2)
 		{

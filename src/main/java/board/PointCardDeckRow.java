@@ -119,7 +119,7 @@ public class PointCardDeckRow extends DeckRow {
 			return false;
 		}
 		
-		if (player.getPointCards().size() > 6)//TODO - more than two player!
+		if (player.getPointCards().size() > Game.getTargetNumberOfPointCards())
 		{
 			System.out.println("Player has too many points cards, why has the game not ended already?");
 			return false;
