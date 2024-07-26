@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import card.Card;
 import card.PointCard;
@@ -27,7 +27,7 @@ public class HandTest {
 	Player player = new Player(true);
 	TradeCard card = new TradeCard();
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		player = new Player(true);
 		Game.setCurrentPlayer(player);
@@ -57,7 +57,7 @@ public class HandTest {
     @Test
     public void testValidateActionWithCardNotInHand() {
     	player.getHand().getDeck().clear();
-    	player.addToHand(new TradeCard());
+    	player.addToHand(new TradeCard(new SpiceInventory(1,0,0,0),new SpiceInventory(0,0,0,2)));
         assertFalse(player.getHand().validateAction(player));
     }
     

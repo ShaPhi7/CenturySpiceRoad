@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import card.Card;
 import card.PointCard;
@@ -25,7 +25,7 @@ public class PointCardDeckRowTest {
 	PointCardDeckRow pointCardDeckRow = new PointCardDeckRow();
 	PointCard pointCard = new PointCard();
 	
-    @Before
+    @BeforeEach
     public void setUp() {
     	player = new Player(true);
     	pointCardDeckRow = new PointCardDeckRow();
@@ -63,7 +63,7 @@ public class PointCardDeckRowTest {
     
     @Test
     public void testValidatePlayerWithPointCardNotInDeck() {
-    	player.setSelectedCard(Optional.of(new PointCard()));
+    	player.setSelectedCard(Optional.of(new PointCard(1,1,1,1,10)));
     	assertFalse(pointCardDeckRow.validateAction(player));
     }
     
@@ -72,7 +72,7 @@ public class PointCardDeckRowTest {
     	
     	for (int i=0;i<10;i++)
     	{
-    		pointCardDeckRow.getDeck().add(0, new PointCard());
+    		pointCardDeckRow.getDeck().add(0, new PointCard(1,1,1,1,10));
     	}
     	
     	assertFalse(pointCardDeckRow.validateAction(player));
@@ -178,7 +178,7 @@ public class PointCardDeckRowTest {
     	pointCardDeckRow.setGoldCoins(2);
     	pointCardDeckRow.setSilverCoins(2);
     	
-    	pointCardDeckRow.getDeck().add(0, new PointCard());
+    	pointCardDeckRow.getDeck().add(0, new PointCard(1,1,1,1,10));
     	
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);
@@ -196,7 +196,7 @@ public class PointCardDeckRowTest {
     	pointCardDeckRow.setGoldCoins(2);
     	pointCardDeckRow.setSilverCoins(0);
     	
-    	pointCardDeckRow.getDeck().add(0, new PointCard());
+    	pointCardDeckRow.getDeck().add(0, new PointCard(1,1,1,1,10));
     	
     	assertTrue(pointCardDeckRow.validateAction(player));
     	pointCardDeckRow.doAction(player);

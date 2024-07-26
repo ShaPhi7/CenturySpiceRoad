@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import card.MerchantCard;
 import card.PointCard;
@@ -17,6 +17,7 @@ import card.UpgradeCard;
 import game.Game;
 import game.Player;
 import game.Spice;
+import game.SpiceInventory;
 
 public class MerchantCardDeckRowTest {
 
@@ -26,7 +27,7 @@ public class MerchantCardDeckRowTest {
 	UpgradeCard upgradeCard = new UpgradeCard();
 	TradeCard tradeCard = new TradeCard();
 	
-    @Before
+    @BeforeEach
     public void setUp() {
     	player = new Player(true);
     	merchantCardDeckRow = new MerchantCardDeckRow();
@@ -69,7 +70,7 @@ public class MerchantCardDeckRowTest {
     
     @Test
     public void testValidatePlayerWithPointCardNotInDeck() {
-    	player.setSelectedCard(Optional.of(new TradeCard()));
+    	player.setSelectedCard(Optional.of(new TradeCard(new SpiceInventory(1,0,0,0), new SpiceInventory(0,0,0,2))));
     	assertFalse(merchantCardDeckRow.validateAction(player));
     }
     
@@ -78,7 +79,7 @@ public class MerchantCardDeckRowTest {
     	
     	for (int i=0;i<10;i++)
     	{
-    		merchantCardDeckRow.getDeck().add(0, new TradeCard());
+    		merchantCardDeckRow.getDeck().add(0, new TradeCard(new SpiceInventory(1,0,0,0),new SpiceInventory(0,0,0,2)));
     	}
     	
     	assertFalse(merchantCardDeckRow.validateAction(player));
@@ -87,8 +88,8 @@ public class MerchantCardDeckRowTest {
     @Test
     public void testValidatePlayerCanAfford() {
     	
-    	merchantCardDeckRow.getDeck().add(0, new TradeCard());
-    	merchantCardDeckRow.getDeck().add(0, new TradeCard());
+    	merchantCardDeckRow.getDeck().add(0, new TradeCard(new SpiceInventory(0,0,0,0),new SpiceInventory(0,0,0,1)));
+    	merchantCardDeckRow.getDeck().add(0, new TradeCard(new SpiceInventory(0,0,0,0),new SpiceInventory(0,0,0,2)));
     	
     	assertEquals(2, tradeCard.getCostToAcquire());
     	assertFalse(merchantCardDeckRow.validateAction(player));
@@ -128,12 +129,12 @@ public class MerchantCardDeckRowTest {
     @Test
     public void testValidatePlayerPlaceCubes() {
 
-    	MerchantCard lowestCard = new TradeCard();
-    	MerchantCard lowerCard = new TradeCard();
-    	MerchantCard firstPurchase = new TradeCard();
-    	MerchantCard middleCard = new TradeCard();    	
-    	MerchantCard secondPurchase = new TradeCard();
-    	MerchantCard higherCard = new TradeCard();
+    	MerchantCard lowestCard = new TradeCard(new SpiceInventory(1,0,0,0),new SpiceInventory(0,0,0,1));
+    	MerchantCard lowerCard = new TradeCard(new SpiceInventory(2,0,0,0),new SpiceInventory(0,0,0,1));
+    	MerchantCard firstPurchase = new TradeCard(new SpiceInventory(3,0,0,0),new SpiceInventory(0,0,0,1));
+    	MerchantCard middleCard = new TradeCard(new SpiceInventory(4,0,0,0),new SpiceInventory(0,0,0,1));    	
+    	MerchantCard secondPurchase = new TradeCard(new SpiceInventory(5,0,0,0),new SpiceInventory(0,0,0,1));
+    	MerchantCard higherCard = new TradeCard(new SpiceInventory(6,0,0,0),new SpiceInventory(0,0,0,1));
     	
     	merchantCardDeckRow.getDeck().add(0, lowestCard); //1
     	merchantCardDeckRow.getDeck().add(1, lowerCard); //2

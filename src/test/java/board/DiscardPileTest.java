@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import card.Card;
 import card.TradeCard;
@@ -22,7 +22,7 @@ public class DiscardPileTest {
 	Player player = new Player(true);
 	DeckRow discard = player.getDiscard();
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		player = new Player(true);
 		discard = player.getDiscard();
