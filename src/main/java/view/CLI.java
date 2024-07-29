@@ -4,36 +4,30 @@ import java.util.Scanner;
 
 import action.ActionRequest;
 import action.Output;
-import controller.GameManager;
 
 public class CLI extends GameView {
 
 	private final Scanner scanner = new Scanner(System.in);
-	private ActionRequest input = new ActionRequest();
+	private ActionRequest request = new ActionRequest();
 	
 	@Override
-    public ActionRequest getInput() {
+	public ActionRequest getInput() {
 
-        System.out.println("Enter commands (type 'exit' to quit):");
+		System.out.println("Enter commands (type 'exit' to quit):");
 
-        while (true) {
-            System.out.print("$ ");
-            String nextLine = scanner.nextLine();
+		System.out.print("$ ");
+		String nextLine = scanner.nextLine();
 
-            if (nextLine.contains("exit")) {
-                System.out.println("Exiting program.");
-                input.exitRequested = true;
-                break;
-            }
+		if (nextLine.contains("exit")) {
+			System.out.println("Exiting program.");
+			request.setExitRequested(true);
+		}
+		
+		request.setAction(nextLine);
 
-            // Process the input
-            //handleCommand(input);
-        }
-        
-        GameManager.resume();
-        
-        return input;
-    }
+		return request;
+
+	}
     
     @Override
     public void displayOutput(Output output)
