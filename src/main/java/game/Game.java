@@ -3,13 +3,12 @@ package game;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
+import action.ActionRequest;
 import board.MerchantCardDeckRow;
 import board.PointCardDeckRow;
 
 public class Game {
-
 	
 	public final static int NUMBER_OF_VISIBLE_MERCHANT_CARDS = 6;
 	public final static int NUMBER_OF_VISIBLE_POINT_CARDS = 5;
@@ -17,12 +16,20 @@ public class Game {
 	public final static int POINT_CARDS_GOAL_FOR_OVER_TWO_PLAYERS = 5;
 	
 	private int numberOfPlayers = 4;
-	private final String uuid = UUID.randomUUID().toString();
 	private List<Player> players = new LinkedList<Player>();
 	private MerchantCardDeckRow merchantCardDeckRow = new MerchantCardDeckRow(this);
 	private PointCardDeckRow pointCardDeckRow = new PointCardDeckRow(this);
 	
 	public Player currentPlayer;
+	
+	public Game() {
+		init();
+	}
+	
+	public Game(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
+		init();
+	}
 	
 	public void init() {
 
@@ -31,13 +38,6 @@ public class Game {
 			
 			populateDecks();
 			shuffleDecks();
-			
-/*			while(!shouldEndGame())
-			{
-				setCurrentPlayer(players.getFirst());
-				getCurrentPlayer().getDiscard().execute(); //TODO - add 3 others and make generic
-				Player.nextPlayer(this);
-			}*/
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -82,10 +82,6 @@ public class Game {
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
-
-	public String getUuid() {
-		return uuid;
-	}
 	
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
@@ -117,5 +113,10 @@ public class Game {
 
 	public void setPointCardDeckRow(PointCardDeckRow pointCardDeckRow) {
 		this.pointCardDeckRow = pointCardDeckRow;
+	}
+
+	public void action(ActionRequest input) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
