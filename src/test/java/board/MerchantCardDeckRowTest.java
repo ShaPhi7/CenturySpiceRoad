@@ -21,26 +21,28 @@ import game.SpiceInventory;
 
 public class MerchantCardDeckRowTest {
 
-	Player player = new Player(true);
-	MerchantCardDeckRow merchantCardDeckRow = new MerchantCardDeckRow();
+	Game game = new Game();
+	Player player = new Player(game, true);
+	MerchantCardDeckRow merchantCardDeckRow = new MerchantCardDeckRow(game);
 	SpiceCard spiceCard = new SpiceCard();
 	UpgradeCard upgradeCard = new UpgradeCard();
 	TradeCard tradeCard = new TradeCard();
 	
     @BeforeEach
     public void setUp() {
-    	player = new Player(true);
-    	merchantCardDeckRow = new MerchantCardDeckRow();
+    	game = new Game();
+    	player = new Player(game, true);
+    	merchantCardDeckRow = new MerchantCardDeckRow(game);
     	spiceCard = new SpiceCard();
     	upgradeCard = new UpgradeCard();
     	tradeCard = new TradeCard();
         
         //Player setup
-        Game.setCurrentPlayer(player);
+        game.setCurrentPlayer(player);
         player.setSelectedCard(Optional.of(tradeCard));
         
         //Deck setup
-        Game.merchantCardDeckRow = merchantCardDeckRow;
+        game.setMerchantCardDeckRow(merchantCardDeckRow);
         merchantCardDeckRow.getDeck().add(tradeCard);
         for (int i=0;i<20;i++)
         {
@@ -52,7 +54,7 @@ public class MerchantCardDeckRowTest {
 
     @Test
     public void testValidatePlayerNotCurrentPlayer() {
-        Game.setCurrentPlayer(new Player(false));
+        game.setCurrentPlayer(new Player(game, false));
     	assertFalse(merchantCardDeckRow.validateAction(player));
     }
     
@@ -91,7 +93,7 @@ public class MerchantCardDeckRowTest {
     	merchantCardDeckRow.getDeck().add(0, new TradeCard(new SpiceInventory(0,0,0,0),new SpiceInventory(0,0,0,1)));
     	merchantCardDeckRow.getDeck().add(0, new TradeCard(new SpiceInventory(0,0,0,0),new SpiceInventory(0,0,0,2)));
     	
-    	assertEquals(2, tradeCard.getCostToAcquire());
+    	assertEquals(2, tradeCard.getCostToAcquire(game));
     	assertFalse(merchantCardDeckRow.validateAction(player));
     	
     	player.gainSpices(Spice.YELLOW_TUMERIC, 1);

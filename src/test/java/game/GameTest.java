@@ -3,20 +3,27 @@ package game;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import card.PointCard;
 
 public class GameTest {
-    @BeforeEach
+	
+	Game game = new Game();
+	
+	@BeforeEach
     public void setUp() {
-    	Game.players.clear();
+		game = new Game();
+    	game.getPlayers().clear();
     }
     
     @Test
     public void testShouldNotEndGameNotStartingPlayer() {
-    	Player startingPlayer = new Player(true);
+    	Player startingPlayer = new Player(game, true);
     	startingPlayer.addToHand(new PointCard());
     	startingPlayer.addToHand(new PointCard());
     	startingPlayer.addToHand(new PointCard());
@@ -24,64 +31,76 @@ public class GameTest {
     	startingPlayer.addToHand(new PointCard());
     	startingPlayer.addToHand(new PointCard());
     	
-    	Player otherPlayer = new Player(false);
-    	Game.setCurrentPlayer(otherPlayer);
+    	Player otherPlayer = new Player(game, false);
+    	game.setCurrentPlayer(otherPlayer);
     	
-    	Game.players.add(startingPlayer);
-    	Game.players.add(otherPlayer);
+    	List<Player> players = new ArrayList<Player>();
     	
-    	assertFalse(Game.shouldEndGame());
+    	game.getPlayers().add(startingPlayer);
+    	game.getPlayers().add(otherPlayer);
+    	
+    	game.setPlayers(players);
+    	
+    	assertFalse(game.shouldEndGame());
     }
     
     @Test
     public void testShouldNotEndGameNotEnoughCardsTwoPlayer() {
-    	Game.NUMBER_OF_PLAYERS = 2;
+    	game.setNumberOfPlayers(2);
     	
-    	Player startingPlayer = new Player(true);
-    	Game.setCurrentPlayer(startingPlayer);
+    	Player startingPlayer = new Player(game, true);
+    	game.setCurrentPlayer(startingPlayer);
     	
-    	Player otherPlayer = new Player(true);
+    	Player otherPlayer = new Player(game, true);
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	
-    	Game.players.add(startingPlayer);
-    	Game.players.add(otherPlayer);
+    	List<Player> players = new ArrayList<Player>();
     	
-    	assertFalse(Game.shouldEndGame());
+    	players.add(startingPlayer);
+    	players.add(otherPlayer);
+    	
+    	game.setPlayers(players);
+    	
+    	assertFalse(game.shouldEndGame());
     }
     
     @Test
     public void testShouldNotEndGameNotEnoughCardsMoreThanTwoPlayers() {
-    	Game.NUMBER_OF_PLAYERS = 5;
-    	Player startingPlayer = new Player(true);
-    	Game.setCurrentPlayer(startingPlayer);
+    	game.setNumberOfPlayers(5);
+    	Player startingPlayer = new Player(game, true);
+    	game.setCurrentPlayer(startingPlayer);
     	
-    	Player otherPlayer = new Player(true);
+    	Player otherPlayer = new Player(game, true);
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	
-    	Game.players.add(startingPlayer);
-    	Game.players.add(otherPlayer);
-    	Game.players.add(new Player(false));
-    	Game.players.add(new Player(false));
-    	Game.players.add(new Player(false));
+    	List<Player> players = new ArrayList<Player>();
     	
-    	assertFalse(Game.shouldEndGame());
+		players.add(startingPlayer);
+    	players.add(otherPlayer);
+    	players.add(new Player(game, false));
+    	players.add(new Player(game, false));
+    	players.add(new Player(game, false));
+    	
+    	game.setPlayers(players);
+    	
+    	assertFalse(game.shouldEndGame());
     }
     
     
     @Test
     public void testShouldEndGameTwoPlayers() {
-    	Game.NUMBER_OF_PLAYERS = 2;
-    	Player startingPlayer = new Player(true);
-    	Game.setCurrentPlayer(startingPlayer);
+    	game.setNumberOfPlayers(2);
+    	Player startingPlayer = new Player(game, true);
+    	game.setCurrentPlayer(startingPlayer);
     	
-    	Player otherPlayer = new Player(true);
+    	Player otherPlayer = new Player(game, true);
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
@@ -89,17 +108,21 @@ public class GameTest {
     	otherPlayer.addToHand(new PointCard());
     	otherPlayer.addToHand(new PointCard());
     	
-    	Game.players.add(startingPlayer);
-    	Game.players.add(otherPlayer);
+    	List<Player> players = new ArrayList<Player>();
     	
-    	assertTrue(Game.shouldEndGame());
+    	players.add(startingPlayer);
+    	players.add(otherPlayer);
+    	
+    	game.setPlayers(players);
+    	
+    	assertTrue(game.shouldEndGame());
     }
     
     @Test
     public void testShouldEndGameMoreThanTwoPlayers() {
-    	Game.NUMBER_OF_PLAYERS = 5;
-    	Player startingPlayer = new Player(true);
-    	Game.setCurrentPlayer(startingPlayer);
+    	game.setNumberOfPlayers(5);
+    	Player startingPlayer = new Player(game, true);
+    	game.setCurrentPlayer(startingPlayer);
     	
     	startingPlayer.addToHand(new PointCard());
     	startingPlayer.addToHand(new PointCard());
@@ -107,12 +130,15 @@ public class GameTest {
     	startingPlayer.addToHand(new PointCard());
     	startingPlayer.addToHand(new PointCard());
     	
-    	Game.players.add(startingPlayer);
-    	Game.players.add(new Player(false));
-    	Game.players.add(new Player(false));
-    	Game.players.add(new Player(false));
-    	Game.players.add(new Player(false));
+    	List<Player> players = new ArrayList<Player>();
+		players.add(startingPlayer);
+    	players.add(new Player(game, false));
+    	players.add(new Player(game, false));
+    	players.add(new Player(game, false));
+    	players.add(new Player(game, false));
     	
-    	assertTrue(Game.shouldEndGame());
+    	game.setPlayers(players);
+    	
+    	assertTrue(game.shouldEndGame());
     }
 }

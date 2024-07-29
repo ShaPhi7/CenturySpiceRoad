@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import card.Card;
+import game.Game;
 import game.Player;
 
 public class DiscardPile extends DeckRow {
 	
-	public DiscardPile() {
-		super(Optional.empty());
+	public DiscardPile(Game game) {
+		super(game, Optional.empty());
 	}
 	
 	@Override

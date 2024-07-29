@@ -19,8 +19,9 @@ public class Player {
 
 	private final boolean startingPlayer;
 	
-	private Hand hand = new Hand();
-	private DiscardPile discard = new DiscardPile();
+	private Game game;
+	private Hand hand;
+	private DiscardPile discard;
 	private SpiceInventory caravan = new SpiceInventory();
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;
@@ -28,7 +29,10 @@ public class Player {
 	private int selectedNumberOfTrades = 1; 
 	private List<SpiceUpgrade> selectedUpgrades = new ArrayList<>();
 	
-	public Player(boolean startingPlayer) {
+	public Player(Game game, boolean startingPlayer) {
+		this.game = game;
+		this.hand = new Hand(game);
+		this.discard = new DiscardPile(game);
 		this.startingPlayer = startingPlayer;
 		System.out.println("Player entered the game");
 	}
@@ -37,20 +41,22 @@ public class Player {
 		return startingPlayer;
 	}
 	
-	public static void setupPlayers(List<Player> players) {
-		players.add(new Player(true));
+	public static void setupPlayers(Game game) {
+		List<Player> players = game.getPlayers();
+		players.add(new Player(game, true));
 		
-		for (int i=1;i<Game.NUMBER_OF_PLAYERS;i++)
+		for (int i=1;i<game.getNumberOfPlayers();i++)
 		{
-			players.add(new Player(false));
+			players.add(new Player(game, false));
 		}
-		Game.currentPlayer = players.getFirst();
+		game.setCurrentPlayer(players.getFirst());
 	}
 
-	public static void nextPlayer(List<Player> players) {
+	public static void nextPlayer(Game game) {
+		List<Player> players = game.getPlayers();
 		Player player = players.removeFirst();
 		players.addLast(player);
-		Game.currentPlayer = players.getFirst();
+		game.setCurrentPlayer(players.getFirst());
 	}
 	
 	public void payCubes(SpiceInventory cost)
@@ -170,7 +176,7 @@ public class Player {
 	 * must pay 1 cube per card below it
 	 */
 	public boolean canAffordToAcquire(MerchantCard card) {
-		int cost = card.getCostToAcquire();
+		int cost = card.getCostToAcquire(game);
 		return getCubeCount() >= cost;
 	}
 	

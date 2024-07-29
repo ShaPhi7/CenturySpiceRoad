@@ -18,10 +18,10 @@ public class PointCardDeckRow extends DeckRow {
 	private int goldCoins;
 	private int silverCoins;
 	
-	public PointCardDeckRow() {
-		super(Optional.of(Integer.valueOf(Game.NUMBER_OF_VISIBLE_POINT_CARDS)));
-		this.goldCoins = Game.players.size() * 2;
-		this.silverCoins = Game.players.size() * 2;
+	public PointCardDeckRow(Game game) {
+		super(game, Optional.of(Integer.valueOf(Game.NUMBER_OF_VISIBLE_POINT_CARDS)));
+		this.goldCoins = game.getNumberOfPlayers() * 2;
+		this.silverCoins = game.getNumberOfPlayers() * 2;
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class PointCardDeckRow extends DeckRow {
 			return false;
 		}
 		
-		if (player.getPointCards().size() > Game.getTargetNumberOfPointCards())
+		if (player.getPointCards().size() > game.getTargetNumberOfPointCards())
 		{
 			System.out.println("Player has too many points cards, why has the game not ended already?");
 			return false;

@@ -24,13 +24,15 @@ import game.SpiceUpgrade;
 
 public class HandTest {
 
-	Player player = new Player(true);
+	Game game = new Game();
+	Player player = new Player(game, true);
 	TradeCard card = new TradeCard();
 	
 	@BeforeEach
 	public void setUp() {
-		player = new Player(true);
-		Game.setCurrentPlayer(player);
+		game = new Game();
+		player = new Player(game, true);
+		game.setCurrentPlayer(player);
 		player.addToHand(card);
 		player.setSelectedCard(Optional.of(card));
 		player.setSelectedNumberOfTrades(1);
@@ -38,7 +40,7 @@ public class HandTest {
 	
     @Test
     public void testValidateActionNotCurrentPlayer() {
-        Game.setCurrentPlayer(new Player(false));
+        game.setCurrentPlayer(new Player(game, false));
     	assertFalse(player.getHand().validateAction(player));
     }
     
@@ -71,7 +73,7 @@ public class HandTest {
     
     @Test
     public void testValidateActionWithOtherPlayersHand() {
-    	Player otherPlayer = new Player(false);
+    	Player otherPlayer = new Player(game, false);
     	otherPlayer.addToHand(card);
         assertFalse(otherPlayer.getHand().validateAction(player));
     }

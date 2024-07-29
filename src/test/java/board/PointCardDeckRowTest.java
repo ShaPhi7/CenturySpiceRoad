@@ -21,18 +21,20 @@ import game.SpiceInventory;
 
 public class PointCardDeckRowTest {
 
-	Player player = new Player(true);
-	PointCardDeckRow pointCardDeckRow = new PointCardDeckRow();
+	Game game = new Game();
+	Player player = new Player(game, true);
+	PointCardDeckRow pointCardDeckRow = new PointCardDeckRow(game);
 	PointCard pointCard = new PointCard();
 	
     @BeforeEach
     public void setUp() {
-    	player = new Player(true);
-    	pointCardDeckRow = new PointCardDeckRow();
+    	game = new Game();
+    	player = new Player(game, true);
+    	pointCardDeckRow = new PointCardDeckRow(game);
     	pointCard = new PointCard();
         
         //Player setup
-        Game.setCurrentPlayer(player);
+        game.setCurrentPlayer(player);
         player.setSelectedCard(Optional.of(pointCard));
         
         //Deck setup
@@ -45,7 +47,7 @@ public class PointCardDeckRowTest {
 
     @Test
     public void testValidatePlayerNotCurrentPlayer() {
-        Game.setCurrentPlayer(new Player(false));
+        game.setCurrentPlayer(new Player(game, false));
     	assertFalse(pointCardDeckRow.validateAction(player));
     }
     
@@ -91,11 +93,11 @@ public class PointCardDeckRowTest {
     public void testValidatePlayerTooManyPointCards() {
     	
     	List<Card> pointCards = new ArrayList<>(); 
-    	for (int i=0;i<7;i++)
+    	for (int i=0;i<6;i++)
     	{
     		pointCards.add(new PointCard());
     	}
-    	Hand hand = new Hand(pointCards);
+    	Hand hand = new Hand(game, pointCards);
     	player.setHand(hand);
     	
     	assertFalse(pointCardDeckRow.validateAction(player));
@@ -103,13 +105,27 @@ public class PointCardDeckRowTest {
     
     @Test
     public void testValidatePlayerAllowedToAcquirePointCard() {
-    	
+    	game.setNumberOfPlayers(3);
     	List<Card> pointCards = new ArrayList<>(); 
-    	for (int i=0;i<6;i++)
+    	for (int i=0;i<4;i++)
     	{
     		pointCards.add(new PointCard());
     	}
-    	Hand hand = new Hand(pointCards);
+    	Hand hand = new Hand(game, pointCards);
+    	player.setHand(hand);
+    	
+    	assertTrue(pointCardDeckRow.validateAction(player));
+    }
+    
+    @Test
+    public void testValidatePlayerAllowedToAcquirePointCardTwoPlayer() {
+    	game.setNumberOfPlayers(2);
+    	List<Card> pointCards = new ArrayList<>(); 
+    	for (int i=0;i<5;i++)
+    	{
+    		pointCards.add(new PointCard());
+    	}
+    	Hand hand = new Hand(game, pointCards);
     	player.setHand(hand);
     	
     	assertTrue(pointCardDeckRow.validateAction(player));

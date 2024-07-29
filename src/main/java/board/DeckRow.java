@@ -12,21 +12,23 @@ import game.Player;
 
 public abstract class DeckRow implements Actionable {
 
+	Game game;
 	List<Card> deck = new ArrayList<Card>();
 	final Optional<Integer> greatestNumberOfVisibleCards;
 	
-	public DeckRow(Optional<Integer> numberOfVisibleCards)
+	public DeckRow(Game game, Optional<Integer> numberOfVisibleCards)
 	{
+		this.game = game;
 		this.greatestNumberOfVisibleCards = numberOfVisibleCards;
 	}
 	
 	public boolean execute()
 	{
-		if (!validateAction(Game.currentPlayer))
+		if (!validateAction(game.getCurrentPlayer()))
 		{
 			return false;
 		}
-		doAction(Game.currentPlayer);
+		doAction(game.getCurrentPlayer());
 		completeAction();
 		return true;
 	}
@@ -37,7 +39,7 @@ public abstract class DeckRow implements Actionable {
 	}
 
 	public boolean basicValidation(Player player) {
-		if (!player.equals(Game.currentPlayer))
+		if (!player.equals(game.getCurrentPlayer()))
 		{
 			System.out.println("Player is not the current player");
 			return false;

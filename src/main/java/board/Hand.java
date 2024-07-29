@@ -5,16 +5,17 @@ import java.util.Optional;
 
 import card.Card;
 import card.MerchantCard;
+import game.Game;
 import game.Player;
 
 public class Hand extends DeckRow {
 	
-	public Hand() {
-		super(Optional.empty());
+	public Hand(Game game) {
+		super(game, Optional.empty());
 	}
 	
-	public Hand(List<Card> cards) {
-		super(Optional.empty());
+	public Hand(Game game, List<Card> cards) {
+		super(game, Optional.empty());
 		deck.addAll(cards);
 	}
 

@@ -20,8 +20,8 @@ import game.SpiceInventory;
 
 public class MerchantCardDeckRow extends DeckRow {
 
-	public MerchantCardDeckRow() {
-		super(Optional.of(Integer.valueOf(Game.NUMBER_OF_VISIBLE_MERCHANT_CARDS)));
+	public MerchantCardDeckRow(Game game) {
+		super(game, Optional.of(Integer.valueOf(Game.NUMBER_OF_VISIBLE_MERCHANT_CARDS)));
 	}
 
 	@Override

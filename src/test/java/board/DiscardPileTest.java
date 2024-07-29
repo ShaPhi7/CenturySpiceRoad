@@ -19,15 +19,17 @@ import game.Player;
 
 public class DiscardPileTest {
 	 
-	Player player = new Player(true);
+	Game game = new Game();
+	Player player = new Player(game, true);
 	DeckRow discard = player.getDiscard();
 	
 	@BeforeEach
 	public void setUp() {
-		player = new Player(true);
+		game = new Game();
+		player = new Player(game, true);
 		discard = player.getDiscard();
 		player.getDiscard().getDeck().add(new TradeCard());
-		Game.setCurrentPlayer(player);
+		game.setCurrentPlayer(player);
 	}
 	 
 	@Test
@@ -55,7 +57,7 @@ public class DiscardPileTest {
 	 
     @Test
     public void testValidateActionNotCurrentPlayer() {
-    	Game.setCurrentPlayer(new Player(false));
+    	game.setCurrentPlayer(new Player(game, false));
     	assertFalse(discard.validateAction(player));
     }
     
@@ -67,7 +69,7 @@ public class DiscardPileTest {
     
     @Test
     public void testValidateActionWithOtherPlayersDiscard() {
-    	Player otherPlayer = new Player(false);
+    	Player otherPlayer = new Player(game, false);
     	DiscardPile otherDiscard = otherPlayer.getDiscard();
     	otherDiscard.getDeck().add(new TradeCard());
         assertFalse(otherDiscard.validateAction(player));

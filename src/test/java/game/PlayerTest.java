@@ -9,41 +9,43 @@ import org.junit.jupiter.api.Test;
 
 public class PlayerTest {
 
+	Game game =	new Game();
+	
     @BeforeEach
     public void setUp() {
-    	Game.players.clear();
-        Player.setupPlayers(Game.players);
+    	game = new Game();
+    	game.init();
     }
 
     @Test
     public void testNumberOfPlayers() {
-    	assertEquals(Game.NUMBER_OF_PLAYERS, Game.players.size(), "Incorrect number of players.");
+    	assertEquals(game.getNumberOfPlayers(), game.getPlayers().size(), "Incorrect number of players.");
     }
 
     @Test
     public void testFirstPlayerIsStartingPlayer() {
-    	assertTrue(Game.players.get(0).isStartingPlayer(), "First player is not the starting player.");
+    	assertTrue(game.getPlayers().get(0).isStartingPlayer(), "First player is not the starting player.");
     }
 
     @Test
     public void testOtherPlayersAreNotStartingPlayers() {
-        for (int i = 1; i < Game.players.size(); i++) {
-        	assertFalse(Game.players.get(i).isStartingPlayer(), "Non-first player is the starting player.");
+        for (int i = 1; i < game.getPlayers().size(); i++) {
+        	assertFalse(game.getPlayers().get(i).isStartingPlayer(), "Non-first player is the starting player.");
         }
     }
 
     @Test
     public void testNextPlayer() {
-        Player.nextPlayer(Game.players);
+        Player.nextPlayer(game);
 
         // Check if the first player has been moved to the end
-        assertFalse(Game.players.getFirst().isStartingPlayer(), "Last player should not be the starting player after rotation.");
-        assertTrue(Game.players.getLast().isStartingPlayer(), "First player should have moved to the last position.");
+        assertFalse(game.getPlayers().getFirst().isStartingPlayer(), "Last player should not be the starting player after rotation.");
+        assertTrue(game.getPlayers().getLast().isStartingPlayer(), "First player should have moved to the last position.");
     }
     
     @Test
     public void testGainingCoins() {
-    	Player currentPlayer = Game.currentPlayer;
+    	Player currentPlayer = game.getCurrentPlayer();
 		assertEquals(currentPlayer.getGoldCoinCount(), 0);
     	assertEquals(currentPlayer.getSilverCoinCount(), 0);
     	
