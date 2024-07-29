@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import action.Action;
 import card.Card;
 import card.MerchantCard;
 import card.SpiceCard;
@@ -25,8 +26,8 @@ public class MerchantCardDeckRow extends DeckRow {
 	}
 
 	@Override
-	public String getActionName() {
-		return "Acquire";
+	public Action getAction() {
+		return Action.ACQUIRE;
 	}
 
 	@Override

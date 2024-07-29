@@ -1,28 +1,29 @@
 package controller;
 
 import action.ActionRequest;
-import action.Output;
+import action.GameOutputHandler;
 import game.Game;
-import view.GameView;
+import view.GameInputHandler;
 
 public class GameController {
 
 	private Game game;
-	private GameView view;
-	private Output output;
+	private GameInputHandler inputHandler;
+	private GameOutputHandler outputHandler;
 	private ActionRequest request;
 	
-	public GameController(Game game, GameView view, Output output, ActionRequest request) {
+	public GameController(Game game, GameInputHandler inputHandler, GameOutputHandler outputHandler, ActionRequest request) {
 		
 		this.game = game;
-		this.view = view;
-		this.output = output;
+		this.inputHandler = inputHandler;
+		this.outputHandler = outputHandler;
 		this.request = request;
 	}
 
 	public void start() {
 		
-		welcome();
+		outputHandler.welcome();
+		inputHandler.getNumberOfPlayers();
 		play();
 	}
 
@@ -33,9 +34,9 @@ public class GameController {
 	public void play() {
 		while (!request.isExitRequested())
 		{
-			request = view.getInput();
+			request = inputHandler.getInput();
 			game.action(request);
-			view.displayOutput(output);
+			outputHandler.displayOutput();
 		}
 		
 		stop();
@@ -44,12 +45,5 @@ public class GameController {
 	public void stop()
 	{
 		GameManager.resume();
-	}
-	
-	private void welcome() {
-		output.addUpdate("Welcome to your game of Century: Spice Road!");
-		output.addUpdate("It is a 2-5 player game.");
-		output.addUpdate("How many players would you like to play with?");
-		view.displayOutput(output);
 	}
 }

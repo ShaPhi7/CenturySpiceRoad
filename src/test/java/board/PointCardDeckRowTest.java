@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import action.Action;
 import card.Card;
 import card.PointCard;
 import card.TradeCard;
@@ -261,7 +262,7 @@ public class PointCardDeckRowTest {
     @Test
     public void testGetActionName() {
     	
-    	assertEquals("Claim", pointCardDeckRow.getActionName());
+    	assertEquals(Action.CLAIM, pointCardDeckRow.getAction());
     }
     
 }

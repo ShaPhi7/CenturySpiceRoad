@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import action.Action;
 import card.MerchantCard;
 import card.PointCard;
 import card.SpiceCard;
@@ -183,6 +184,6 @@ public class MerchantCardDeckRowTest {
     @Test
     public void testGetActionName() {
     	
-    	assertEquals("Acquire", merchantCardDeckRow.getActionName());
+    	assertEquals(Action.ACQUIRE, merchantCardDeckRow.getAction());
     }
 }

@@ -3,9 +3,12 @@ package action;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Output {
+public abstract class GameOutputHandler {
 
-	private List<String> gameUpdates = new ArrayList<>();
+	public abstract void displayOutput();
+	public abstract void welcome();
+	
+	protected List<String> gameUpdates = new ArrayList<>();
 
 	public List<String> getGameUpdates() {
 		return gameUpdates;

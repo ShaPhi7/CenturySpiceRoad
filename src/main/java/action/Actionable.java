@@ -4,7 +4,7 @@ import game.Player;
 
 public interface Actionable {
 
-	public String getActionName();
+	public Action getAction();
 	public void doAction(Player player);
 	public boolean validateAction(Player player);
 }

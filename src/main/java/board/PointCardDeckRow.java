@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import action.Action;
 import card.Card;
 import card.PointCard;
 import game.Game;
@@ -25,8 +26,8 @@ public class PointCardDeckRow extends DeckRow {
 	}
 
 	@Override
-	public String getActionName() {
-		return "Claim";
+	public Action getAction() {
+		return Action.CLAIM;
 	}
 
 	@Override

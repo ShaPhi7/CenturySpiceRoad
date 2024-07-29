@@ -3,6 +3,7 @@ package board;
 import java.util.List;
 import java.util.Optional;
 
+import action.Action;
 import card.Card;
 import card.MerchantCard;
 import game.Game;
@@ -20,8 +21,8 @@ public class Hand extends DeckRow {
 	}
 
 	@Override
-	public String getActionName() {
-		return "Play";
+	public Action getAction() {
+		return Action.PLAY;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import action.Action;
 import card.Card;
 import card.TradeCard;
 import game.Game;
@@ -90,6 +91,6 @@ public class DiscardPileTest {
     @Test
     public void testGetActionName() {
 		DeckRow discard = player.getDiscard();
-    	assertEquals("Rest", discard.getActionName());
+    	assertEquals(Action.REST, discard.getAction());
     }
 }

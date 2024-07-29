@@ -3,25 +3,26 @@ package controller;
 import java.util.UUID;
 
 import action.ActionRequest;
-import action.Output;
+import action.CliOutputHandler;
+import action.GameOutputHandler;
 import game.Game;
-import view.CLI;
-import view.GameView;
+import view.CliInputHandler;
+import view.GameInputHandler;
 
 public class GameSession {
 
 	private Game game;
 	private GameController controller;
-	private GameView view;
-	private Output output;
+	private GameInputHandler view;
+	private GameOutputHandler output;
 	private ActionRequest request;
 	
 	public final String uuid = UUID.randomUUID().toString();
 
 	public GameSession() {
 		this.game = new Game();
-		this.view = new CLI();
-		this.output = new Output();
+		this.view = new CliInputHandler();
+		this.output = new CliOutputHandler();
 		this.request = new ActionRequest();
 		this.controller = new GameController(game, view, output, request);
 	}

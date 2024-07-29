@@ -3,6 +3,7 @@ package board;
 import java.util.List;
 import java.util.Optional;
 
+import action.Action;
 import card.Card;
 import game.Game;
 import game.Player;
@@ -14,8 +15,8 @@ public class DiscardPile extends DeckRow {
 	}
 	
 	@Override
-	public String getActionName() {
-		return "Rest";
+	public Action getAction() {
+		return Action.REST;
 	}
 
 	@Override
