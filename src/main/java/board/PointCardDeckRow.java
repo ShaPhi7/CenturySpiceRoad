@@ -46,7 +46,6 @@ public class PointCardDeckRow extends DeckRow {
 		moveCardTo(player.getHand(), selectedCard);
 	}
 
-	//TODO - it would be nice to tidy the nested ifs
 	private void giveCoinsTo(Player player, PointCard card) {
 		int cardPosition = deck.indexOf(card);
 		if (cardPosition == 0)

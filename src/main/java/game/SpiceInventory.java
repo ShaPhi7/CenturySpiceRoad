@@ -134,13 +134,20 @@ public class SpiceInventory {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("Y:");
+		sb.append(Spice.YELLOW_TUMERIC.getSpiceChar());
+		sb.append(":");
 		sb.append(String.valueOf(getQuantity(Spice.YELLOW_TUMERIC)));
-		sb.append(" G:");
+		sb.append(" ");
+		sb.append(Spice.RED_SAFFRON.getSpiceChar());
+		sb.append(":");
 		sb.append(String.valueOf(getQuantity(Spice.RED_SAFFRON)));
-		sb.append(" R:");
+		sb.append(" ");
+		sb.append(Spice.GREEN_CARDAMOM.getSpiceChar());
+		sb.append(":");
 		sb.append(String.valueOf(getQuantity(Spice.GREEN_CARDAMOM)));
-		sb.append(" B:");
+		sb.append(" ");
+		sb.append(Spice.BROWN_CINNAMON.getSpiceChar());
+		sb.append(":");
 		sb.append(String.valueOf(getQuantity(Spice.BROWN_CINNAMON)));
 		
 		return sb.toString();		

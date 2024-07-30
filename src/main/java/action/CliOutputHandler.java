@@ -27,7 +27,11 @@ public class CliOutputHandler extends GameOutputHandler {
 		addUpdate(game.getMerchantCardDeckRow().getVisibleCards());
 		addUpdate("Point cards:");
 		addUpdate(game.getPointCardDeckRow().getVisibleCards());
-		addUpdate("Your cards: ");
+		addUpdate("Your hand: ");
 		addUpdate(game.getCurrentPlayer().getHand().getDeck());
+		addUpdate("Your discard pile: ");
+		addUpdate(game.getCurrentPlayer().getDiscard().getDeck());
+		addUpdate("Your caravan: ");
+		addUpdate(game.getCurrentPlayer().getCaravan().toString());
 	}
 }

@@ -10,6 +10,7 @@ import action.Actionable;
 import action.GameOutputHandler;
 import card.Card;
 import game.Game;
+import game.Player;
 import game.Spice;
 import game.SpiceInventory;
 import game.State;
@@ -44,6 +45,8 @@ public abstract class DeckRow implements Actionable {
 			Spice spice = caravan.getLowestValueCubePresent(); //TODO - give choice
 			caravan.removeSpices(spice, 1);
 		}
+		
+		Player.nextPlayer(game);
 	}
 
 	public boolean basicValidation(GameInputHandler input) {

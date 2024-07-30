@@ -17,7 +17,7 @@ public abstract class GameInputHandler {
 	private Optional<Action> action = Optional.empty();
 	private Player player;
 	private int selectedNumberOfPlayers = 0;
-	private Optional<Card> selectedCard = Optional.empty(); //TODO - probably want a PlayerTurn object
+	private Optional<Card> selectedCard = Optional.empty();
 	private int selectedNumberOfTrades = 1; 
 	private List<SpiceUpgrade> selectedUpgrades = new ArrayList<>();
 	

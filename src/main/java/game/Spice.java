@@ -5,10 +5,10 @@ import java.util.Optional;
 
 public enum Spice {
 
-	BROWN_CINNAMON("brown",'b'),
-	GREEN_CARDAMOM("green", 'g'),
-	RED_SAFFRON("red", 'r'),
-	YELLOW_TUMERIC("yellow", 'y');
+	BROWN_CINNAMON("brown",'B'),
+	GREEN_CARDAMOM("green", 'G'),
+	RED_SAFFRON("red", 'R'),
+	YELLOW_TUMERIC("yellow", 'Y');
 
 	public Spice getUpgrade() {
 		Map<Spice, Spice> upgradesMap = SpiceUpgrade.getUpgradesMap();

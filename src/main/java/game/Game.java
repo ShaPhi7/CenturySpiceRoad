@@ -59,8 +59,9 @@ public class Game implements Actionable {
 		}
 	}
 
-    public SpiceInventory getStartingCubes(int position) {
+    public SpiceInventory getStartingCubes(int index) {
     	SpiceInventory ret = new SpiceInventory();
+    	int position = index+1;
     	switch (position) {
             case 1:
                 ret.addSpices(Spice.YELLOW_TUMERIC, 3);
