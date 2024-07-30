@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import action.Action;
+import action.GameOutputHandler;
 import card.Card;
 import card.MerchantCard;
 import card.SpiceCard;
@@ -18,6 +19,7 @@ import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public class MerchantCardDeckRow extends DeckRow {
 
@@ -31,11 +33,12 @@ public class MerchantCardDeckRow extends DeckRow {
 	}
 
 	@Override
-	public void doAction(Player player) {
+	public void doAction(GameInputHandler input, GameOutputHandler output) {
 		//Choose card
-		MerchantCard card = (MerchantCard) player.getSelectedCard().orElseThrow();
+		MerchantCard card = (MerchantCard) input.getSelectedCard().orElseThrow();
 		
 		//pay cubes
+		Player player = input.getPlayer();
 		placeCubesOnLowerCards(player, card);
 		
 		moveCardTo(player.getHand(), card);
@@ -58,13 +61,14 @@ public class MerchantCardDeckRow extends DeckRow {
 	}
 	
 	@Override
-	public boolean validateAction(Player player) {
+	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
+		Player player = input.getPlayer();
 		if (!basicValidation(player))
 		{
 			return false;
 		}
 		
-		Optional<MerchantCard> cardOptional = validateSelectedCard(player);
+		Optional<MerchantCard> cardOptional = validateSelectedCard(input);
 		if (cardOptional.isEmpty())
 		{
 			return false;
@@ -80,9 +84,9 @@ public class MerchantCardDeckRow extends DeckRow {
 		return true;
 	}
 
-	private Optional<MerchantCard> validateSelectedCard(Player player) {
+	private Optional<MerchantCard> validateSelectedCard(GameInputHandler input) {
 		
-		Optional<Card> selectedCard = player.getSelectedCard();
+		Optional<Card> selectedCard = input.getSelectedCard();
 		
 		MerchantCard card = null;
 		try {

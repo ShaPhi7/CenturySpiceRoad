@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import action.ActionRequest;
+import action.Action;
+import action.Actionable;
+import action.GameOutputHandler;
 import board.MerchantCardDeckRow;
 import board.PointCardDeckRow;
+import view.GameInputHandler;
 
-public class Game {
+public class Game implements Actionable {
 	
 	public final static int NUMBER_OF_VISIBLE_MERCHANT_CARDS = 6;
 	public final static int NUMBER_OF_VISIBLE_POINT_CARDS = 5;
@@ -21,14 +24,13 @@ public class Game {
 	private PointCardDeckRow pointCardDeckRow = new PointCardDeckRow(this);
 	
 	public Player currentPlayer;
+	public State currentState;
 	
 	public Game() {
-		init();
 	}
-	
+	 
 	public Game(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
-		init();
 	}
 	
 	public void init() {
@@ -115,8 +117,26 @@ public class Game {
 		this.pointCardDeckRow = pointCardDeckRow;
 	}
 
-	public void action(ActionRequest input) {
-		// TODO Auto-generated method stub
+	@Override
+	public Action getAction() {
+		return Action.SETUP;
+	}
+
+	@Override
+	public void doAction(GameInputHandler input, GameOutputHandler output) {
+		init();
+	}
+
+	@Override
+	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
+		this.numberOfPlayers = input.getSelectedNumberOfPlayers();
+				//TODO
+		if (!currentState.equals(State.GAME_START))
+		{
+			System.out.println("Game is already setup!");
+			return false;
+		}
 		
+		return true;
 	}	
 }

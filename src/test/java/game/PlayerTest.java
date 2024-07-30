@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import action.CliOutputHandler;
+import view.CliInputHandler;
+
 public class PlayerTest {
 
 	Game game =	new Game();
@@ -14,6 +17,10 @@ public class PlayerTest {
     @BeforeEach
     public void setUp() {
     	game = new Game();
+    	CliInputHandler input = new CliInputHandler();
+    	CliOutputHandler output = new CliOutputHandler();
+    	input.setSelectedNumberOfPlayers(4);
+		game.doAction(input, output);
     }
 
     @Test

@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import action.Action;
+import action.GameOutputHandler;
 import card.Card;
 import card.MerchantCard;
 import game.Game;
 import game.Player;
+import view.GameInputHandler;
 
 public class Hand extends DeckRow {
 	
@@ -26,14 +28,14 @@ public class Hand extends DeckRow {
 	}
 
 	@Override
-	public void doAction(Player player) {
-		MerchantCard card = (MerchantCard) player.getSelectedCard().orElseThrow();
-		player.play(card);
+	public void doAction(GameInputHandler input, GameOutputHandler output) {
+		MerchantCard card = (MerchantCard) input.getSelectedCard().orElseThrow();
+		input.getPlayer().play(card, input);
 	}
 
 	@Override
-	public boolean validateAction(Player player) {
-		
+	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
+		Player player = input.getPlayer();
 		if (!basicValidation(player))
 		{
 			return false;
@@ -51,7 +53,7 @@ public class Hand extends DeckRow {
 			return false;
 		}
 		
-		Optional<Card> cardOptional = player.getSelectedCard();
+		Optional<Card> cardOptional = input.getSelectedCard();
 		
 		if (cardOptional.isEmpty())
 		{
@@ -75,19 +77,19 @@ public class Hand extends DeckRow {
 			return false;
 		}
 		
-		if (!player.canAfford(merchantCard))
+		if (!player.canAfford(merchantCard, input))
 		{
 			System.out.println("Player can not afford to play this card");
 			return false;
 		}
 		
-		if (!player.selectedUpgradesAreSensible())
+		if (!input.selectedUpgradesAreSensible())
 		{
 			System.out.println("Trying to upgrade cubes beyond brown");
 			return false;
 		}
 		
-		if (!player.selectedMoreUpgradesThanPermitted(card))
+		if (!input.selectedMoreUpgradesThanPermitted(card))
 		{
 			System.out.println("Trying to upgrade more cubes than the card permits");
 			return false;

@@ -1,9 +1,9 @@
 package card;
 
-import game.Player;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public abstract class Card {
 
-	public abstract SpiceInventory getCost(Player player);
+	public abstract SpiceInventory getCost(GameInputHandler input);
 }

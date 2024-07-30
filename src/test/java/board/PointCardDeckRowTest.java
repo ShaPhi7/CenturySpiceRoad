@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import action.Action;
+import action.CliOutputHandler;
 import card.Card;
 import card.PointCard;
 import card.TradeCard;
@@ -19,11 +20,15 @@ import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import view.CliInputHandler;
+import view.GameInputHandler;
 
 public class PointCardDeckRowTest {
 
 	Game game = new Game();
 	Player player = new Player(game, true);
+	GameInputHandler input = new CliInputHandler();
+	CliOutputHandler output = new CliOutputHandler();
 	PointCardDeckRow pointCardDeckRow = new PointCardDeckRow(game);
 	PointCard pointCard = new PointCard();
 	
@@ -31,12 +36,15 @@ public class PointCardDeckRowTest {
     public void setUp() {
     	game = new Game();
     	player = new Player(game, true);
+    	input = new CliInputHandler();
+    	output = new CliOutputHandler();
     	pointCardDeckRow = new PointCardDeckRow(game);
     	pointCard = new PointCard();
         
         //Player setup
         game.setCurrentPlayer(player);
-        player.setSelectedCard(Optional.of(pointCard));
+        input.setPlayer(player);
+        input.setSelectedCard(Optional.of(pointCard));
         
         //Deck setup
         pointCardDeckRow.getDeck().add(pointCard);
@@ -49,25 +57,25 @@ public class PointCardDeckRowTest {
     @Test
     public void testValidatePlayerNotCurrentPlayer() {
         game.setCurrentPlayer(new Player(game, false));
-    	assertFalse(pointCardDeckRow.validateAction(player));
+    	assertFalse(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
     public void testValidatePlayerWithNoCard() {
-    	player.setSelectedCard(Optional.empty());
-        assertFalse(pointCardDeckRow.validateAction(player));
+    	input.setSelectedCard(Optional.empty());
+        assertFalse(pointCardDeckRow.validateAction(input, output));
     }
 
     @Test
     public void testValidatePlayerWithNonPointCard() {
-    	player.setSelectedCard(Optional.of(new TradeCard()));
-    	assertFalse(pointCardDeckRow.validateAction(player));
+    	input.setSelectedCard(Optional.of(new TradeCard()));
+    	assertFalse(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
     public void testValidatePlayerWithPointCardNotInDeck() {
-    	player.setSelectedCard(Optional.of(new PointCard(1,1,1,1,10)));
-    	assertFalse(pointCardDeckRow.validateAction(player));
+    	input.setSelectedCard(Optional.of(new PointCard(1,1,1,1,10)));
+    	assertFalse(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
@@ -78,7 +86,7 @@ public class PointCardDeckRowTest {
     		pointCardDeckRow.getDeck().add(0, new PointCard(1,1,1,1,10));
     	}
     	
-    	assertFalse(pointCardDeckRow.validateAction(player));
+    	assertFalse(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
@@ -87,7 +95,7 @@ public class PointCardDeckRowTest {
     	SpiceInventory spiceInventory = new SpiceInventory();
 		spiceInventory.addSpices(Spice.YELLOW_TUMERIC, 1);
     	pointCard.setCost(spiceInventory);
-    	assertFalse(pointCardDeckRow.validateAction(player));
+    	assertFalse(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
@@ -101,7 +109,7 @@ public class PointCardDeckRowTest {
     	Hand hand = new Hand(game, pointCards);
     	player.setHand(hand);
     	
-    	assertFalse(pointCardDeckRow.validateAction(player));
+    	assertFalse(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
@@ -115,7 +123,7 @@ public class PointCardDeckRowTest {
     	Hand hand = new Hand(game, pointCards);
     	player.setHand(hand);
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
@@ -129,7 +137,7 @@ public class PointCardDeckRowTest {
     	Hand hand = new Hand(game, pointCards);
     	player.setHand(hand);
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
     }
     
     @Test
@@ -148,8 +156,8 @@ public class PointCardDeckRowTest {
 		player.gainSpices(Spice.GREEN_CARDAMOM, 1);
 		player.gainSpices(Spice.BROWN_CINNAMON, 1);
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(2, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     	assertEquals(1, player.getSpiceCount(Spice.RED_SAFFRON));
@@ -163,8 +171,8 @@ public class PointCardDeckRowTest {
     	pointCardDeckRow.setGoldCoins(2);
     	pointCardDeckRow.setSilverCoins(2);
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(1, player.getGoldCoinCount());
     	assertEquals(0, player.getSilverCoinCount());
@@ -179,8 +187,8 @@ public class PointCardDeckRowTest {
     	pointCardDeckRow.setGoldCoins(0);
     	pointCardDeckRow.setSilverCoins(2);
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(0, player.getGoldCoinCount());
     	assertEquals(1, player.getSilverCoinCount());
@@ -197,8 +205,8 @@ public class PointCardDeckRowTest {
     	
     	pointCardDeckRow.getDeck().add(0, new PointCard(1,1,1,1,10));
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(0, player.getGoldCoinCount());
     	assertEquals(1, player.getSilverCoinCount());
@@ -215,8 +223,8 @@ public class PointCardDeckRowTest {
     	
     	pointCardDeckRow.getDeck().add(0, new PointCard(1,1,1,1,10));
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(0, player.getGoldCoinCount());
     	assertEquals(0, player.getGoldCoinCount());
@@ -232,8 +240,8 @@ public class PointCardDeckRowTest {
     	
     	pointCardDeckRow.getDeck().add(0, new PointCard());
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(0, player.getGoldCoinCount());
     	assertEquals(0, player.getGoldCoinCount());
@@ -250,8 +258,8 @@ public class PointCardDeckRowTest {
     	pointCardDeckRow.setGoldCoins(0);
     	pointCardDeckRow.setSilverCoins(0);
     	
-    	assertTrue(pointCardDeckRow.validateAction(player));
-    	pointCardDeckRow.doAction(player);
+    	assertTrue(pointCardDeckRow.validateAction(input, output));
+    	pointCardDeckRow.doAction(input, output);
     	
     	assertEquals(0, player.getGoldCoinCount());
     	assertEquals(0, player.getGoldCoinCount());

@@ -13,24 +13,34 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import action.Action;
+import action.CliOutputHandler;
+import action.GameOutputHandler;
 import card.Card;
 import card.TradeCard;
 import game.Game;
 import game.Player;
+import view.CliInputHandler;
+import view.GameInputHandler;
 
 public class DiscardPileTest {
 	 
 	Game game = new Game();
 	Player player = new Player(game, true);
+	GameInputHandler input = new CliInputHandler();
+	GameOutputHandler output = new CliOutputHandler();
+	
 	DeckRow discard = player.getDiscard();
 	
 	@BeforeEach
 	public void setUp() {
 		game = new Game();
 		player = new Player(game, true);
+		input = new CliInputHandler();
+		output = new CliOutputHandler();
 		discard = player.getDiscard();
 		player.getDiscard().getDeck().add(new TradeCard());
 		game.setCurrentPlayer(player);
+		input.setPlayer(player);
 	}
 	 
 	@Test
@@ -41,7 +51,7 @@ public class DiscardPileTest {
 		Set<Card> handBefore = new HashSet<>(player.getHand().getDeck());
 		
 		// Perform action
-		discard.doAction(player);
+		discard.doAction(input, output);
 		
 		// After action: discard should be empty and hand should contain the cards
 		List<Card> discardAfter = discard.getDeck();
@@ -59,13 +69,13 @@ public class DiscardPileTest {
     @Test
     public void testValidateActionNotCurrentPlayer() {
     	game.setCurrentPlayer(new Player(game, false));
-    	assertFalse(discard.validateAction(player));
+    	assertFalse(discard.validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithNoCardInDiscard() {
     	discard.getDeck().clear();
-        assertFalse(discard.validateAction(player));
+        assertFalse(discard.validateAction(input, output));
     }
     
     @Test
@@ -73,19 +83,19 @@ public class DiscardPileTest {
     	Player otherPlayer = new Player(game, false);
     	DiscardPile otherDiscard = otherPlayer.getDiscard();
     	otherDiscard.getDeck().add(new TradeCard());
-        assertFalse(otherDiscard.validateAction(player));
+        assertFalse(otherDiscard.validateAction(input, output));
     }
  
     @Test
     public void testValidateActionWithNoCardSelected() {
-    	player.setSelectedCard(Optional.empty());
-        assertTrue(discard.validateAction(player));
+    	input.setSelectedCard(Optional.empty());
+        assertTrue(discard.validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithCardSelected() {
-    	player.setSelectedCard(Optional.of(new TradeCard()));
-        assertTrue(discard.validateAction(player));
+    	input.setSelectedCard(Optional.of(new TradeCard()));
+        assertTrue(discard.validateAction(input, output));
     }
     
     @Test

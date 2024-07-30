@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 import action.Actionable;
+import action.GameOutputHandler;
 import card.Card;
 import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public abstract class DeckRow implements Actionable {
 
@@ -24,13 +26,13 @@ public abstract class DeckRow implements Actionable {
 		this.greatestNumberOfVisibleCards = numberOfVisibleCards;
 	}
 	
-	public boolean execute()
+	public boolean execute(GameInputHandler input, GameOutputHandler output)
 	{
-		if (!validateAction(game.getCurrentPlayer()))
+		if (!validateAction(input, output))
 		{
 			return false;
 		}
-		doAction(game.getCurrentPlayer());
+		doAction(input, output);
 		completeAction();
 		return true;
 	}

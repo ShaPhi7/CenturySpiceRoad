@@ -2,6 +2,7 @@ package card;
 
 import game.Player;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public class TradeCard extends MerchantCard {
 	
@@ -21,10 +22,10 @@ public class TradeCard extends MerchantCard {
 	}
 	
 	@Override
-	public SpiceInventory getCost(Player player) {
+	public SpiceInventory getCost(GameInputHandler input) {
 
 		SpiceInventory multSpiceInventory = new SpiceInventory();
-		for (int i=0; i<player.getSelectedNumberOfTrades(); i++)
+		for (int i=0; i<input.getSelectedNumberOfTrades(); i++)
 		{
 			multSpiceInventory.addSpices(from);
 		}
@@ -32,8 +33,9 @@ public class TradeCard extends MerchantCard {
 	}
 	
 	@Override
-	public void play(Player player) {
-		for (int i=0;i<player.getSelectedNumberOfTrades();i++)
+	public void play(GameInputHandler input) {
+		Player player = input.getPlayer();
+		for (int i=0;i<input.getSelectedNumberOfTrades();i++)
 		{
 			player.payCubes(from);
 			player.gainSpices(to);

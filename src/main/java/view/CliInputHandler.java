@@ -3,7 +3,6 @@ package view;
 import java.util.Scanner;
 
 import action.ActionRequest;
-import action.GameOutputHandler;
 
 public class CliInputHandler extends GameInputHandler {
 

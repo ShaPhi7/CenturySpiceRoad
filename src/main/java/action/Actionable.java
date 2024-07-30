@@ -1,10 +1,10 @@
 package action;
 
-import game.Player;
+import view.GameInputHandler;
 
 public interface Actionable {
 
 	public Action getAction();
-	public void doAction(Player player);
-	public boolean validateAction(Player player);
+	public void doAction(GameInputHandler input, GameOutputHandler output);
+	public boolean validateAction(GameInputHandler input, GameOutputHandler output);
 }

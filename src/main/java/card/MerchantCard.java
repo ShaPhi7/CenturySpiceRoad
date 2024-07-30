@@ -3,15 +3,15 @@ package card;
 import java.util.List;
 
 import game.Game;
-import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public abstract class MerchantCard extends Card {
 
 	private SpiceInventory cubesWithAcquire = new SpiceInventory();
 	
-	public abstract void play(Player player);
+	public abstract void play(GameInputHandler input);
 	
 	public SpiceInventory getCubesWithAcquire()
 	{

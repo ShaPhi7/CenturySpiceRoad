@@ -1,7 +1,7 @@
 package card;
 
-import game.Player;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public class PointCard extends Card {
 
@@ -17,7 +17,7 @@ public class PointCard extends Card {
 	}
 	
 	@Override
-	public SpiceInventory getCost(Player player) {
+	public SpiceInventory getCost(GameInputHandler input) {
 		return getCost();
 	}
 	

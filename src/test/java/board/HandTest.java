@@ -11,6 +11,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import action.CliOutputHandler;
+import action.GameOutputHandler;
 import card.Card;
 import card.PointCard;
 import card.SpiceCard;
@@ -21,61 +23,68 @@ import game.Player;
 import game.Spice;
 import game.SpiceInventory;
 import game.SpiceUpgrade;
+import view.CliInputHandler;
+import view.GameInputHandler;
 
 public class HandTest {
 
 	Game game = new Game();
 	Player player = new Player(game, true);
+	GameInputHandler input = new CliInputHandler();
+	GameOutputHandler output = new CliOutputHandler();
 	TradeCard card = new TradeCard();
 	
 	@BeforeEach
 	public void setUp() {
 		game = new Game();
 		player = new Player(game, true);
+		input = new CliInputHandler();
+		output = new CliOutputHandler();
 		game.setCurrentPlayer(player);
 		player.addToHand(card);
-		player.setSelectedCard(Optional.of(card));
-		player.setSelectedNumberOfTrades(1);
+		input.setPlayer(player);
+		input.setSelectedCard(Optional.of(card));
+		input.setSelectedNumberOfTrades(1);
 	}
 	
     @Test
     public void testValidateActionNotCurrentPlayer() {
         game.setCurrentPlayer(new Player(game, false));
-    	assertFalse(player.getHand().validateAction(player));
+    	assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithNoCardSelected() {
-    	player.setSelectedCard(Optional.empty());
-        assertFalse(player.getHand().validateAction(player));
+    	input.setSelectedCard(Optional.empty());
+        assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithNoCardInHand() {
     	player.getHand().getDeck().clear();
-        assertFalse(player.getHand().validateAction(player));
+        assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithCardNotInHand() {
     	player.getHand().getDeck().clear();
     	player.addToHand(new TradeCard(new SpiceInventory(1,0,0,0),new SpiceInventory(0,0,0,2)));
-        assertFalse(player.getHand().validateAction(player));
+        assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithNonMerchantCard() {
     	PointCard pointCard = new PointCard();
 		player.addToHand(pointCard);
-    	player.setSelectedCard(Optional.of(pointCard));
-        assertFalse(player.getHand().validateAction(player));
+    	input.setSelectedCard(Optional.of(pointCard));
+        assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
     public void testValidateActionWithOtherPlayersHand() {
     	Player otherPlayer = new Player(game, false);
     	otherPlayer.addToHand(card);
-        assertFalse(otherPlayer.getHand().validateAction(player));
+        assertFalse(otherPlayer.getHand().validateAction(input, output));
     }
     
     @Test
@@ -88,9 +97,9 @@ public class HandTest {
 		TradeCard tradeCard = new TradeCard(from, to);
 		
 		player.addToHand(tradeCard);
-		player.setSelectedCard(Optional.of(tradeCard));
+		input.setSelectedCard(Optional.of(tradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -104,13 +113,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 1));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -125,13 +134,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.RED_SAFFRON, 1));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -147,13 +156,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 1));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(2);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -165,13 +174,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 3));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(2);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -184,13 +193,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.BROWN_CINNAMON, 1));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -202,13 +211,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 2));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -220,13 +229,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.RED_SAFFRON, 3));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -238,13 +247,13 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 4));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertFalse(player.getHand().validateAction(player));
+		assertFalse(player.getHand().validateAction(input, output));
     }
     
     @Test
@@ -259,11 +268,11 @@ public class HandTest {
 		Optional<Card> spiceCardOptional = Optional.of(spiceCard);
     		
 		player.addToHand(spiceCard);
-		player.setSelectedCard(spiceCardOptional);
+		input.setSelectedCard(spiceCardOptional);
 		
     	Hand hand = player.getHand();
-		assertTrue(hand.validateAction(player));
-    	hand.doAction(player);
+		assertTrue(hand.validateAction(input, output));
+    	hand.doAction(input, output);
     	
     	assertEquals(1, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     	assertEquals(2, player.getSpiceCount(Spice.RED_SAFFRON));
@@ -284,14 +293,14 @@ public class HandTest {
 		TradeCard tradeCard = new TradeCard(from, to);
 		
 		player.addToHand(tradeCard);
-		player.setSelectedCard(Optional.of(tradeCard));
-		player.setSelectedNumberOfTrades(4);
+		input.setSelectedCard(Optional.of(tradeCard));
+		input.setSelectedNumberOfTrades(4);
 		
 		player.gainSpices(Spice.YELLOW_TUMERIC, 5);
 		player.gainSpices(Spice.RED_SAFFRON, 5);
 		
-		assertTrue(player.getHand().validateAction(player));
-		player.getHand().doAction(player);
+		assertTrue(player.getHand().validateAction(input, output));
+		player.getHand().doAction(input, output);
 		
     	assertEquals(1, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     	assertEquals(1, player.getSpiceCount(Spice.RED_SAFFRON));
@@ -316,14 +325,14 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.GREEN_CARDAMOM, 1));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(4);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertTrue(player.getHand().validateAction(player));
-		player.getHand().doAction(player);
+		assertTrue(player.getHand().validateAction(input, output));
+		player.getHand().doAction(input, output);
 		
     	assertEquals(0, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     	assertEquals(0, player.getSpiceCount(Spice.RED_SAFFRON));
@@ -341,14 +350,14 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 1));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(3);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertTrue(player.getHand().validateAction(player));
-		player.getHand().doAction(player);
+		assertTrue(player.getHand().validateAction(input, output));
+		player.getHand().doAction(input, output);
 		
     	assertEquals(0, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     	assertEquals(1, player.getSpiceCount(Spice.RED_SAFFRON));
@@ -365,14 +374,14 @@ public class HandTest {
     	sul.add(new SpiceUpgrade(Spice.YELLOW_TUMERIC, 3));
     	
 		player.setCaravan(caravan);
-		player.setSelectedUpgrades(sul);
+		input.setSelectedUpgrades(sul);
 		
 		UpgradeCard upgradeCard = new UpgradeCard(3);
 		player.addToHand(upgradeCard);
-		player.setSelectedCard(Optional.of(upgradeCard));
+		input.setSelectedCard(Optional.of(upgradeCard));
 		
-		assertTrue(player.getHand().validateAction(player));
-		player.getHand().doAction(player);
+		assertTrue(player.getHand().validateAction(input, output));
+		player.getHand().doAction(input, output);
 		
     	assertEquals(0, player.getSpiceCount(Spice.YELLOW_TUMERIC));
     	assertEquals(0, player.getSpiceCount(Spice.RED_SAFFRON));

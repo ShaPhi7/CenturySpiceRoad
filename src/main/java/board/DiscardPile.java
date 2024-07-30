@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import action.Action;
+import action.GameOutputHandler;
 import card.Card;
 import game.Game;
 import game.Player;
+import view.GameInputHandler;
 
 public class DiscardPile extends DeckRow {
 	
@@ -20,15 +22,18 @@ public class DiscardPile extends DeckRow {
 	}
 
 	@Override
-	public void doAction(Player player) {
+	public void doAction(GameInputHandler input, GameOutputHandler output) {
+		Player player = input.getPlayer();
 		List<Card> hand = player.getHand().getDeck();
 		hand.addAll(deck);
 		deck.clear();
 	}
 
 	@Override
-	public boolean validateAction(Player player) {
+	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
 
+		Player player = input.getPlayer();
+		
 		if (!basicValidation(player))
 		{
 			return false;

@@ -1,7 +1,7 @@
 package card;
 
-import game.Player;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public class SpiceCard extends MerchantCard {
 
@@ -18,13 +18,13 @@ public class SpiceCard extends MerchantCard {
 	}
 	
 	@Override
-	public SpiceInventory getCost(Player player) {
+	public SpiceInventory getCost(GameInputHandler input) {
 		return new SpiceInventory();
 	}
 	
 	@Override
-	public void play(Player player) {
-		player.gainSpices(spiceInventory);
+	public void play(GameInputHandler input) {
+		input.getPlayer().gainSpices(spiceInventory);
 	}
 
 	@Override

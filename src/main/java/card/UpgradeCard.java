@@ -4,6 +4,7 @@ import game.Player;
 import game.Spice;
 import game.SpiceInventory;
 import game.SpiceUpgrade;
+import view.GameInputHandler;
 
 public class UpgradeCard extends MerchantCard {
 
@@ -20,13 +21,14 @@ public class UpgradeCard extends MerchantCard {
 	}
 	
 	@Override
-	public SpiceInventory getCost(Player player) {
-		return SpiceUpgrade.getCost(player.getSelectedUpgrades());
+	public SpiceInventory getCost(GameInputHandler input) {
+		return SpiceUpgrade.getCost(input.getSelectedUpgrades());
 	}
 	
 	@Override
-	public void play(Player player) {
-		for (SpiceUpgrade su : player.getSelectedUpgrades())
+	public void play(GameInputHandler input) {
+		Player player = input.getPlayer();
+		for (SpiceUpgrade su : input.getSelectedUpgrades())
 		{
 			Spice cubeToBeUpgraded = su.getCubeToBeUpgraded();
 			player.payCube(cubeToBeUpgraded);

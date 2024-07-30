@@ -35,7 +35,7 @@ public class GameController {
 		while (!request.isExitRequested())
 		{
 			request = inputHandler.getInput();
-			game.action(request);
+			game.doAction(null, null);
 			outputHandler.displayOutput();
 		}
 		

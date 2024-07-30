@@ -1,8 +1,6 @@
 package game;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import board.DiscardPile;
@@ -10,7 +8,7 @@ import board.Hand;
 import card.Card;
 import card.MerchantCard;
 import card.PointCard;
-import card.UpgradeCard;
+import view.GameInputHandler;
 
 /**
  * aka Caravan
@@ -25,9 +23,6 @@ public class Player {
 	private SpiceInventory caravan = new SpiceInventory();
 	private int goldCoinCount = 0;
 	private int silverCoinCount = 0;
-	private Optional<Card> selectedCard = Optional.empty(); //TODO - probably want a PlayerTurn object
-	private int selectedNumberOfTrades = 1; 
-	private List<SpiceUpgrade> selectedUpgrades = new ArrayList<>();
 	
 	public Player(Game game, boolean startingPlayer) {
 		this.game = game;
@@ -142,33 +137,9 @@ public class Player {
 	public int getSpiceCount(Spice spice) {
 		return caravan.getQuantity(spice);
 	}
-	
-	public Optional<Card> getSelectedCard() {
-		return selectedCard;
-	}
 
-	public void setSelectedCard(Optional<Card> selectedCard) {
-		this.selectedCard = selectedCard;
-	}
-
-	public int getSelectedNumberOfTrades() {
-		return selectedNumberOfTrades;
-	}
-
-	public void setSelectedNumberOfTrades(int selectedNumberOfTrades) {
-		this.selectedNumberOfTrades = selectedNumberOfTrades;
-	}
-
-	public List<SpiceUpgrade> getSelectedUpgrades() {
-		return selectedUpgrades;
-	}
-
-	public void setSelectedUpgrades(List<SpiceUpgrade> selectedUpgrades) {
-		this.selectedUpgrades = selectedUpgrades;
-	}
-
-	public boolean canAfford(Card card) {
-		SpiceInventory cost = card.getCost(this);
+	public boolean canAfford(Card card, GameInputHandler input) {
+		SpiceInventory cost = card.getCost(input);
 		return caravan.canAfford(cost);
 	}
 	
@@ -187,28 +158,9 @@ public class Player {
                 .collect(Collectors.toList());
 	}
 
-	public void play(MerchantCard card) {
-		card.play(this);
+	public void play(MerchantCard card, GameInputHandler input) {
+		card.play(input);
 		getHand().remove(card);
 		getDiscard().add(card);
-	}
-	
-	/*
-	 * If an Upgrade card is not selected, then we would not expect to have any selected upgrades to fail this check.
-	 * I do not see a need to explicitly check that it is empty though.
-	 */
-	public boolean selectedUpgradesAreSensible() {
-		 return getSelectedUpgrades().stream().noneMatch(spiceUpgrade ->
-	        spiceUpgrade.getNumberOfTimesToUpgrade() > SpiceUpgrade.getMaxUpgrades().getOrDefault(spiceUpgrade.getCubeToBeUpgraded(), 0));
-	}
-
-	public boolean selectedMoreUpgradesThanPermitted(Card card) {
-		if (!(card instanceof UpgradeCard upgradeCard))
-		{
-			//only applicable to upgrade cards
-			return true;
-		}
-		
-		return SpiceUpgrade.getTotalUpgrades(getSelectedUpgrades()) <= upgradeCard.getPermittedUpgrades();
 	}
 }

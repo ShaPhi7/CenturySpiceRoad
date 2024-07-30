@@ -8,11 +8,13 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import action.Action;
+import action.GameOutputHandler;
 import card.Card;
 import card.PointCard;
 import game.Game;
 import game.Player;
 import game.SpiceInventory;
+import view.GameInputHandler;
 
 public class PointCardDeckRow extends DeckRow {
 
@@ -31,11 +33,12 @@ public class PointCardDeckRow extends DeckRow {
 	}
 
 	@Override
-	public void doAction(Player player) {
+	public void doAction(GameInputHandler input, GameOutputHandler output) {
 		//Choose card
-		PointCard selectedCard = (PointCard) player.getSelectedCard().orElseThrow();
+		PointCard selectedCard = (PointCard) input.getSelectedCard().orElseThrow();
 		
 		//pay cubes
+		Player player = input.getPlayer();
 		SpiceInventory cost = selectedCard.getCost();
 		player.payCubes(cost);
 		
@@ -101,20 +104,21 @@ public class PointCardDeckRow extends DeckRow {
 	}
 
 	@Override
-	public boolean validateAction(Player player) {
+	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
+		Player player = input.getPlayer();
 		if (!basicValidation(player))
 		{
 			return false;
 		}
 
-		Optional<PointCard> cardOptional = validateSelectedCard(player);
+		Optional<PointCard> cardOptional = validateSelectedCard(input);
 		if (cardOptional.isEmpty())
 		{
 			return false;
 		}
 		PointCard card = cardOptional.orElseThrow();
 		
-		if (!player.canAfford(card))
+		if (!player.canAfford(card, input))
 		{
 			System.out.println("Player can not afford to purchase that point card");
 			return false;
@@ -129,9 +133,9 @@ public class PointCardDeckRow extends DeckRow {
 		return true;
 	}
 
-	private Optional<PointCard> validateSelectedCard(Player player) {
+	private Optional<PointCard> validateSelectedCard(GameInputHandler input) {
 		
-		Optional<Card> selectedCard = player.getSelectedCard();
+		Optional<Card> selectedCard = input.getSelectedCard();
 
 		PointCard card = null;
 		try {
