@@ -9,6 +9,8 @@ import action.Actionable;
 import card.Card;
 import game.Game;
 import game.Player;
+import game.Spice;
+import game.SpiceInventory;
 
 public abstract class DeckRow implements Actionable {
 
@@ -34,8 +36,11 @@ public abstract class DeckRow implements Actionable {
 	}
 	
 	private void completeAction() {
-		// TODO discard down to 10 cubes in caravan
-		
+		SpiceInventory caravan = game.getCurrentPlayer().getCaravan();
+		while (caravan.getTotalCubes() > 10) {
+			Spice spice = caravan.getLowestValueCubePresent(); //TODO - give choice
+			caravan.removeSpices(spice, 1);
+		}
 	}
 
 	public boolean basicValidation(Player player) {

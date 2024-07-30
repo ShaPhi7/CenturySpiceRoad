@@ -48,7 +48,7 @@ public class MerchantCardDeckRow extends DeckRow {
 		int indexOf = deck.indexOf(card);
 		for (int i=0;i<indexOf;i++)
 		{
-			Spice spice = Spice.YELLOW_TUMERIC; //TODO - give choice
+			Spice spice = game.getCurrentPlayer().getCaravan().getLowestValueCubePresent(); //TODO - give choice
 			
 			player.payCube(spice);
 			

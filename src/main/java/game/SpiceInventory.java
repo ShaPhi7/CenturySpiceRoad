@@ -108,6 +108,28 @@ public class SpiceInventory {
 		return cubes.values().stream().mapToInt(Integer::intValue).sum();	
 	}
 
+	public Spice getLowestValueCubePresent() {
+		if (getQuantity(Spice.YELLOW_TUMERIC) > 0)
+		{
+			return Spice.YELLOW_TUMERIC;
+		}
+		else if (getQuantity(Spice.RED_SAFFRON) > 0)
+		{
+			return Spice.RED_SAFFRON;
+		} 
+		else if (getQuantity(Spice.GREEN_CARDAMOM) > 0)
+		{
+			return Spice.GREEN_CARDAMOM;
+		} 
+		else if (getQuantity(Spice.BROWN_CINNAMON) > 0)
+		{
+			return Spice.BROWN_CINNAMON;
+		} 
+		else {
+			return null;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
