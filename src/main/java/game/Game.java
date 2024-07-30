@@ -50,8 +50,8 @@ public class Game implements Actionable {
 				player.addToHand(new SpiceCard(spiceInventory));
 				player.addToHand(new UpgradeCard(2));
 				
-				//TODO put this bit in.
-				player.gainSpices(spiceInventory);
+				SpiceInventory startingCubes = getStartingCubes(players.indexOf(player));
+				player.gainSpices(startingCubes);
 			}
 		}
 		catch (Exception e) {
@@ -59,6 +59,25 @@ public class Game implements Actionable {
 		}
 	}
 
+    public SpiceInventory getStartingCubes(int position) {
+    	SpiceInventory ret = new SpiceInventory();
+    	switch (position) {
+            case 1:
+                ret.addSpices(Spice.YELLOW_TUMERIC, 3);
+                break;
+            case 2:
+            case 3:
+                ret.addSpices(Spice.YELLOW_TUMERIC, 4);
+                break;
+            case 4:
+            case 5:
+            	ret.addSpices(Spice.YELLOW_TUMERIC, 3);
+                ret.addSpices(Spice.RED_SAFFRON, 1);
+                break;
+    	}
+    	return ret;
+    }
+	
 	private void populateDecks() throws IOException {
 		merchantCardDeckRow.populateFromCsv("merchant-card-deck.csv");
 		pointCardDeckRow.populateFromCsv("point-card-deck.csv");
