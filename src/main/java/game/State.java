@@ -1,7 +1,7 @@
 package game;
 
 public enum State {
-	GAME_START,
-	PLAYER_TURN,
-	GAME_END;
+	NEW_GAME,
+	NEW_TURN,
+	GAME_ENDED;
 }

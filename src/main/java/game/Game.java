@@ -61,6 +61,7 @@ public class Game implements Actionable {
 		
 		if (players.stream().anyMatch(p -> p.getPointCards().size() >= getTargetNumberOfPointCards())
 		  && currentPlayer.isStartingPlayer()) {
+			currentState = State.GAME_ENDED;
 			return true;
 		}
 		
@@ -77,6 +78,14 @@ public class Game implements Actionable {
 		return POINT_CARDS_GOAL_FOR_OVER_TWO_PLAYERS;
 	}
 	
+	public State getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(State currentState) {
+		this.currentState = currentState;
+	}
+
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
@@ -124,19 +133,19 @@ public class Game implements Actionable {
 
 	@Override
 	public void doAction(GameInputHandler input, GameOutputHandler output) {
+		this.numberOfPlayers = input.getSelectedNumberOfPlayers();
 		init();
+		currentState = State.NEW_TURN;
 	}
 
 	@Override
 	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
-		this.numberOfPlayers = input.getSelectedNumberOfPlayers();
-				//TODO
-		if (!currentState.equals(State.GAME_START))
+		if (!currentState.equals(State.NEW_GAME))
 		{
 			System.out.println("Game is already setup!");
 			return false;
 		}
 		
 		return true;
-	}	
+	}
 }

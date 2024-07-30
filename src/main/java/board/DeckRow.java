@@ -12,6 +12,7 @@ import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import game.State;
 import view.GameInputHandler;
 
 public abstract class DeckRow implements Actionable {
@@ -49,6 +50,12 @@ public abstract class DeckRow implements Actionable {
 		if (!player.equals(game.getCurrentPlayer()))
 		{
 			System.out.println("Player is not the current player");
+			return false;
+		}
+		
+		if (!game.getCurrentState().equals(State.NEW_TURN))
+		{
+			System.out.println("Not expecting a player turn action");
 			return false;
 		}
 		
