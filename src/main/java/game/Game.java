@@ -9,6 +9,8 @@ import action.Actionable;
 import action.GameOutputHandler;
 import board.MerchantCardDeckRow;
 import board.PointCardDeckRow;
+import card.SpiceCard;
+import card.UpgradeCard;
 import view.GameInputHandler;
 
 public class Game implements Actionable {
@@ -41,7 +43,16 @@ public class Game implements Actionable {
 			populateDecks();
 			shuffleDecks();
 			
-			//TODO - give starting cards and starting cubes
+			for (Player player: players)
+			{				
+				SpiceInventory spiceInventory = new SpiceInventory();
+				spiceInventory.addSpices(Spice.YELLOW_TUMERIC, 2);
+				player.addToHand(new SpiceCard(spiceInventory));
+				player.addToHand(new UpgradeCard(2));
+				
+				//TODO put this bit in.
+				player.gainSpices(spiceInventory);
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();

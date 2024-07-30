@@ -50,11 +50,11 @@ public class CliInputHandler extends GameInputHandler {
 	}
 
 	public void setSelectedCard(DeckRow deckrow) {
-		CLI.print("Which card?");
 		for (int i=0; i<deckrow.getVisibleCards().size(); i++)
 		{
-			CLI.print("[ " + i + "] " + deckrow.getVisibleCards().get(i));
+			CLI.print("[" + i + "] " + deckrow.getVisibleCards().get(i));
 		}
+		CLI.print("Which card?");
 		String input = CLI.getInput();
 		Card card = deckrow.getVisibleCards().get(Integer.valueOf(input));
 		setSelectedCard(Optional.of(card));
