@@ -20,6 +20,7 @@ import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import game.State;
 import view.CliInputHandler;
 import view.GameInputHandler;
 
@@ -42,9 +43,11 @@ public class PointCardDeckRowTest {
     	pointCard = new PointCard();
         
         //Player setup
-        game.setCurrentPlayer(player);
+    	game.setCurrentState(State.NEW_TURN);
+    	game.setCurrentPlayer(player);
         input.setPlayer(player);
         input.setSelectedCard(Optional.of(pointCard));
+        input.setAction(Action.CLAIM);
         
         //Deck setup
         pointCardDeckRow.getDeck().add(pointCard);

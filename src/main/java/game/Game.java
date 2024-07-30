@@ -24,7 +24,7 @@ public class Game implements Actionable {
 	private PointCardDeckRow pointCardDeckRow = new PointCardDeckRow(this);
 	
 	public Player currentPlayer;
-	public State currentState;
+	public State currentState = State.NEW_GAME;
 	
 	public Game() {
 	}
@@ -40,6 +40,8 @@ public class Game implements Actionable {
 			
 			populateDecks();
 			shuffleDecks();
+			
+			//TODO - give starting cards and starting cubes
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -133,9 +135,16 @@ public class Game implements Actionable {
 
 	@Override
 	public void doAction(GameInputHandler input, GameOutputHandler output) {
+		if (!validateAction(input, output))
+		{
+			return;
+		}
 		this.numberOfPlayers = input.getSelectedNumberOfPlayers();
 		init();
 		currentState = State.NEW_TURN;
+		output.addUpdate("The game is now setup for " + numberOfPlayers + " players.");
+		output.addUpdate("Good luck!");
+		output.updateAllVisibleComponents(this);
 	}
 
 	@Override

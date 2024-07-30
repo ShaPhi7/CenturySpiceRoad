@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import action.Action;
 import action.CliOutputHandler;
 import action.GameOutputHandler;
 import card.Card;
@@ -23,6 +24,7 @@ import game.Player;
 import game.Spice;
 import game.SpiceInventory;
 import game.SpiceUpgrade;
+import game.State;
 import view.CliInputHandler;
 import view.GameInputHandler;
 
@@ -45,6 +47,8 @@ public class HandTest {
 		input.setPlayer(player);
 		input.setSelectedCard(Optional.of(card));
 		input.setSelectedNumberOfTrades(1);
+		input.setAction(Action.PLAY);
+		game.setCurrentState(State.NEW_TURN);
 	}
 	
     @Test

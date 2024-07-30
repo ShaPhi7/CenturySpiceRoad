@@ -31,10 +31,8 @@ public class DiscardPile extends DeckRow {
 
 	@Override
 	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
-
-		Player player = input.getPlayer();
 		
-		if (!basicValidation(player))
+		if (!basicValidation(input))
 		{
 			return false;
 		}
@@ -45,7 +43,7 @@ public class DiscardPile extends DeckRow {
 			return false;
 		}
 		
-		if (!this.equals(player.getDiscard()))
+		if (!this.equals(input.getPlayer().getDiscard()))
 		{
 			System.out.println("Player trying to pick up a discard deck that is not their own");
 			return false;

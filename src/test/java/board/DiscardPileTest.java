@@ -19,6 +19,7 @@ import card.Card;
 import card.TradeCard;
 import game.Game;
 import game.Player;
+import game.State;
 import view.CliInputHandler;
 import view.GameInputHandler;
 
@@ -39,8 +40,10 @@ public class DiscardPileTest {
 		output = new CliOutputHandler();
 		discard = player.getDiscard();
 		player.getDiscard().getDeck().add(new TradeCard());
+		game.setCurrentState(State.NEW_TURN);
 		game.setCurrentPlayer(player);
 		input.setPlayer(player);
+		input.setAction(Action.REST);
 	}
 	 
 	@Test

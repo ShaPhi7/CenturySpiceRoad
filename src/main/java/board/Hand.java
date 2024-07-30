@@ -36,7 +36,7 @@ public class Hand extends DeckRow {
 	@Override
 	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
 		Player player = input.getPlayer();
-		if (!basicValidation(player))
+		if (!basicValidation(input))
 		{
 			return false;
 		}

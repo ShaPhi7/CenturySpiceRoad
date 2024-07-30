@@ -105,8 +105,7 @@ public class PointCardDeckRow extends DeckRow {
 
 	@Override
 	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
-		Player player = input.getPlayer();
-		if (!basicValidation(player))
+		if (!basicValidation(input))
 		{
 			return false;
 		}
@@ -118,6 +117,7 @@ public class PointCardDeckRow extends DeckRow {
 		}
 		PointCard card = cardOptional.orElseThrow();
 		
+		Player player = input.getPlayer();
 		if (!player.canAfford(card, input))
 		{
 			System.out.println("Player can not afford to purchase that point card");

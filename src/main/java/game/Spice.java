@@ -1,16 +1,67 @@
 package game;
 
 import java.util.Map;
+import java.util.Optional;
 
 public enum Spice {
 
-	BROWN_CINNAMON,
-	GREEN_CARDAMOM,
-	RED_SAFFRON,
-	YELLOW_TUMERIC;
+	BROWN_CINNAMON("brown",'b'),
+	GREEN_CARDAMOM("green", 'g'),
+	RED_SAFFRON("red", 'r'),
+	YELLOW_TUMERIC("yellow", 'y');
 
 	public Spice getUpgrade() {
 		Map<Spice, Spice> upgradesMap = SpiceUpgrade.getUpgradesMap();
 		return upgradesMap.get(this);		
 	}
+	
+	private final String spiceColour;
+	private final Character spiceChar;
+
+	private Spice(String spiceColour, Character spiceChar) {
+		this.spiceColour = spiceColour;
+		this.spiceChar = spiceChar;
+	}
+
+	public Character getSpiceChar() {
+		return spiceChar;
+	}
+	
+	public String getSpiceColour() {
+		return spiceColour;
+	}
+
+	@Override
+	public String toString() {
+		return spiceColour;
+	}
+	
+	public static Optional<Spice> fromString(String text) {
+        if (text.length() > 1)
+        {
+        	return fromColour(text);
+        }
+        else
+        {
+        	return fromChar(text.charAt(0));
+        }
+    }
+
+	private static Optional<Spice> fromChar(Character text) {
+		for (Spice spice : Spice.values()) {
+            if (spice.getSpiceChar().equals(text)) {
+                return Optional.of(spice);
+            }
+        }
+        return Optional.empty();
+	}
+	
+	private static Optional<Spice> fromColour(String text) {
+        for (Spice spice : Spice.values()) {
+            if (spice.getSpiceColour().equalsIgnoreCase(text)) {
+                return Optional.of(spice);
+            }
+        }
+        return Optional.empty();
+    }
 }

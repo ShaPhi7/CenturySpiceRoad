@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import action.ActionRequest;
+import action.Action;
 import card.Card;
 import card.UpgradeCard;
 import game.Player;
@@ -14,8 +14,8 @@ public abstract class GameInputHandler {
 	
 	String uuid = "";
 	private boolean exitRequested = false; 
-	private String action = "";
-	private Player player = null;
+	private Optional<Action> action = Optional.empty();
+	private Player player;
 	private int selectedNumberOfPlayers = 0;
 	private Optional<Card> selectedCard = Optional.empty(); //TODO - probably want a PlayerTurn object
 	private int selectedNumberOfTrades = 1; 
@@ -29,12 +29,16 @@ public abstract class GameInputHandler {
 		this.exitRequested = exitRequested;
 	}
 	
-	public String getAction() {
+	public Optional<Action> getAction() {
 		return action;
 	}
 	
-	public void setAction(String action) {
+	public void setAction(Optional<Action> action) {
 		this.action = action;
+	}
+	
+	public void setAction(Action action) {
+		this.action = Optional.of(action);
 	}
 	
 	public Player getPlayer() {
@@ -77,8 +81,8 @@ public abstract class GameInputHandler {
 		this.selectedUpgrades = selectedUpgrades;
 	}
 	
-	public abstract ActionRequest getInput();
-	public abstract ActionRequest getNumberOfPlayers();
+	public abstract String getInput();
+	public abstract void setSelectedNumberOfPlayers();
 	
 	/*
 	 * If an Upgrade card is not selected, then we would not expect to have any selected upgrades to fail this check.

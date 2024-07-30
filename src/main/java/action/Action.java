@@ -1,12 +1,15 @@
 package action;
 
+import java.util.Optional;
+
 public enum Action {
 	SETUP("Setup"),
 	ACQUIRE("Acquire"),
 	REST("Rest"),
 	CLAIM("Claim"),
 	PLAY("Play"),
-	DISCARD("Discard");
+	DISCARD("Discard"),
+	EXIT("Exit");
 
 	private final String actionText;
 
@@ -22,4 +25,13 @@ public enum Action {
 	public String toString() {
 		return actionText;
 	}
+	
+	public static Optional<Action> fromString(String text) {
+        for (Action action : Action.values()) {
+            if (action.getActionText().equalsIgnoreCase(text)) {
+                return Optional.of(action);
+            }
+        }
+        return Optional.empty();
+    }
 }

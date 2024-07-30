@@ -62,8 +62,7 @@ public class MerchantCardDeckRow extends DeckRow {
 	
 	@Override
 	public boolean validateAction(GameInputHandler input, GameOutputHandler output) {
-		Player player = input.getPlayer();
-		if (!basicValidation(player))
+		if (!basicValidation(input))
 		{
 			return false;
 		}
@@ -75,6 +74,7 @@ public class MerchantCardDeckRow extends DeckRow {
 		}
 		MerchantCard card = cardOptional.orElseThrow();  
 		
+		Player player = input.getPlayer();
 		if (!player.canAffordToAcquire(card))
 		{
 			System.out.println("Player can not afford to purchase that merchant card");

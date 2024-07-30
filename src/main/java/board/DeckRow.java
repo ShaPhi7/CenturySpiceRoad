@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import action.Action;
 import action.Actionable;
 import action.GameOutputHandler;
 import card.Card;
 import game.Game;
-import game.Player;
 import game.Spice;
 import game.SpiceInventory;
 import game.State;
@@ -46,8 +46,8 @@ public abstract class DeckRow implements Actionable {
 		}
 	}
 
-	public boolean basicValidation(Player player) {
-		if (!player.equals(game.getCurrentPlayer()))
+	public boolean basicValidation(GameInputHandler input) {
+		if (!input.getPlayer().equals(game.getCurrentPlayer()))
 		{
 			System.out.println("Player is not the current player");
 			return false;
@@ -56,6 +56,12 @@ public abstract class DeckRow implements Actionable {
 		if (!game.getCurrentState().equals(State.NEW_TURN))
 		{
 			System.out.println("Not expecting a player turn action");
+			return false;
+		}
+		
+		if (!input.getAction().orElse(Action.DISCARD).equals(getAction()))
+		{
+			System.out.println("Actions do not match");
 			return false;
 		}
 		

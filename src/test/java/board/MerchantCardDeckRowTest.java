@@ -20,6 +20,7 @@ import game.Game;
 import game.Player;
 import game.Spice;
 import game.SpiceInventory;
+import game.State;
 import view.CliInputHandler;
 import view.GameInputHandler;
 
@@ -45,10 +46,11 @@ public class MerchantCardDeckRowTest {
     	upgradeCard = new UpgradeCard();
     	tradeCard = new TradeCard();
         
-        //Player setup
-        game.setCurrentPlayer(player);
+    	game.setCurrentState(State.NEW_TURN);
+    	game.setCurrentPlayer(player);
         input.setPlayer(player);
         input.setSelectedCard(Optional.of(tradeCard));
+        input.setAction(Action.ACQUIRE);
         
         //Deck setup
         game.setMerchantCardDeckRow(merchantCardDeckRow);
