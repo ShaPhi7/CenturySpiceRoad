@@ -3,6 +3,13 @@
     <junit-jupiter-api-version>LATEST</junit-jupiter-api-version>
   </properties>
 
+  <parent>
+  <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.4</version>
+    <relativePath/>
+  </parent>
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>shaun</groupId>
   <artifactId>century-spice-road</artifactId>
@@ -11,6 +18,10 @@
   <description>Play a game of Century: Spice Road</description>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
@@ -35,8 +46,11 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit-jupiter-api-version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
       </dependency>
     </dependencies>
 </project>
