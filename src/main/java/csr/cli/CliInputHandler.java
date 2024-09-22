@@ -36,7 +36,7 @@ public class CliInputHandler extends GameInputHandler {
 		CLI.print("How many players would you like to play with?");
 		
 		setAction(Action.SETUP);
-		setSelectedNumberOfPlayers(Integer.valueOf(getInput()));
+		setSelectedNumberOfPlayers(Integer.parseInt(getInput()));
 	}
 
 	public void setAction() {
@@ -57,7 +57,7 @@ public class CliInputHandler extends GameInputHandler {
 		}
 		CLI.print("Which card?");
 		String input = CLI.getInput();
-		Card card = deckrow.getVisibleCards().get(Integer.valueOf(input));
+		Card card = deckrow.getVisibleCards().get(Integer.parseInt(input));
 		setSelectedCard(Optional.of(card));
 	}
 	
@@ -67,7 +67,7 @@ public class CliInputHandler extends GameInputHandler {
 		{
 			CLI.print("How many times?");
 			String input = CLI.getInput();
-			setSelectedNumberOfTrades(Integer.valueOf(input));
+			setSelectedNumberOfTrades(Integer.parseInt(input));
 		}
 	}
 	
@@ -100,7 +100,7 @@ public class CliInputHandler extends GameInputHandler {
 		CLI.print("How many times?");
 		String numberOfTimes = CLI.getInput();
 		
-		SpiceUpgrade spiceUpgrade = new SpiceUpgrade(spice.orElse(Spice.YELLOW_TUMERIC), Integer.valueOf(numberOfTimes));
+		SpiceUpgrade spiceUpgrade = new SpiceUpgrade(spice.orElse(Spice.YELLOW_TUMERIC), Integer.parseInt(numberOfTimes));
 		return spiceUpgrade;
 	}
 }

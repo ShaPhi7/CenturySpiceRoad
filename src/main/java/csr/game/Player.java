@@ -17,7 +17,7 @@ public class Player {
 
 	private final boolean startingPlayer;
 	
-	private Game game;
+	private final Game game;
 	private Hand hand;
 	private DiscardPile discard;
 	private SpiceInventory caravan = new SpiceInventory();

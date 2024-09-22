@@ -12,8 +12,8 @@ public class GameManager {
 	private final static Object monitor = new Object();
 	private static boolean readyToProceed = false;
 	
-	private List<GameSession> sessions;
-	private Scanner scanner;
+	private final List<GameSession> sessions;
+	private final Scanner scanner;
 
 	public static void main(String[] args) {
 		GameManager gameManager = new GameManager();
@@ -55,9 +55,9 @@ public class GameManager {
 		}
 		
 		String nextLine = scanner.nextLine();
-		GameSession session = null;
+		GameSession session;
 		try {
-			session = sessions.get(Integer.valueOf(nextLine));
+			session = sessions.get(Integer.parseInt(nextLine));
 			session.resume();
 			pause();
 		}

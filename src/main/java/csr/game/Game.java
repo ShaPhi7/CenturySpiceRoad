@@ -21,7 +21,7 @@ public class Game implements Actionable {
 	public final static int POINT_CARDS_GOAL_FOR_OVER_TWO_PLAYERS = 5;
 	
 	private int numberOfPlayers = 4;
-	private List<Player> players = new LinkedList<Player>();
+	private List<Player> players = new LinkedList<>();
 	private MerchantCardDeckRow merchantCardDeckRow = new MerchantCardDeckRow(this);
 	private PointCardDeckRow pointCardDeckRow = new PointCardDeckRow(this);
 	

@@ -6,7 +6,7 @@ import csr.game.Game;
 
 public class CliController {
 
-	private Game game;
+	private final Game game;
 	private CliInputHandler input = new CliInputHandler();
 	private CliOutputHandler output = new CliOutputHandler();
 	
@@ -43,34 +43,26 @@ public class CliController {
 			
 			switch (input.getAction().orElse(Action.SETUP))
 			{
-				case ACQUIRE:
-					input.setSelectedCard(game.getMerchantCardDeckRow());
-					game.getMerchantCardDeckRow().execute(input, output);
-					break;
-				case CLAIM:
-					input.setSelectedCard(game.getPointCardDeckRow());
-					game.getPointCardDeckRow().execute(input, output);
-					break;
-				case DISCARD:
-					output.addUpdate("Not yet implemented, choose a different action.");
-					break;
-				case PLAY:
-					input.setSelectedCard(game.getCurrentPlayer().getHand());
-					input.setSelectedNumberOfTrades();
-					input.setSelectedUpgrades();
-					input.getPlayer().getHand().execute(input, output);
-					break;
-				case REST:
-					input.getPlayer().getDiscard().execute(input, output);
-					break;
-				case SETUP:
-					game.validateAction(input, output);
-					break;
-				case EXIT:
-					break;
-				default:
-					output.addUpdate("Unknown action, please try again.");
-					break;
+				case ACQUIRE -> {
+                                    input.setSelectedCard(game.getMerchantCardDeckRow());
+                                    game.getMerchantCardDeckRow().execute(input, output);
+                        }
+				case CLAIM -> {
+                                    input.setSelectedCard(game.getPointCardDeckRow());
+                                    game.getPointCardDeckRow().execute(input, output);
+                        }
+				case DISCARD -> output.addUpdate("Not yet implemented, choose a different action.");
+				case PLAY -> {
+                                    input.setSelectedCard(game.getCurrentPlayer().getHand());
+                                    input.setSelectedNumberOfTrades();
+                                    input.setSelectedUpgrades();
+                                    input.getPlayer().getHand().execute(input, output);
+                        }
+				case REST -> input.getPlayer().getDiscard().execute(input, output);
+				case SETUP -> game.validateAction(input, output);
+				case EXIT -> {
+                        }
+				default -> output.addUpdate("Unknown action, please try again.");
 			}
 			output.updateAllVisibleComponents(game);
 			output.displayOutput();
